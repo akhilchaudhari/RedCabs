@@ -19,3 +19,4 @@ Insert Into Person values ('Person4','4234','Argentina','CG',7)
 
 END
 
+insert into Driver values ('Aman','Arora','aman.arora@live.com','8390002928','0,0',1)
