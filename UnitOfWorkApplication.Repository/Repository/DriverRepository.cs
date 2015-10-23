@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace UnitOfWorkApplication.Repository.Repository
 {
-    public class CountryRepository : GenericRepository<Country>, ICountryRepository
+    public class DriverRepository : GenericRepository<Driver>, IDriverRepository
     {
-        public CountryRepository(DbContext context)
+        public DriverRepository(DbContext context)
               : base(context)
         {
 
         }
-        public Country GetById(int id)
+        public Driver GetById(int id)
         {
             return FindBy(x => x.Id == id).FirstOrDefault();
         }

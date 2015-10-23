@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace UnitOfWorkApplication.Services.Interfaces
 {
 
-    public interface ICountryService : IEntityService<Country>
+    public interface IDriverService : IEntityService<Driver>
     {
-        Country GetById(int Id);
+        Driver GetById(int Id);
     }
 }

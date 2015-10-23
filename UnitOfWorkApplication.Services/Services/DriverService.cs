@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 namespace UnitOfWorkApplication.Services.Services
 {
 
-    public class CountryService : EntityService<Country>, ICountryService
+    public class DriverService : EntityService<Driver>, IDriverService
     {
         IUnitOfWork _unitOfWork;
-        ICountryRepository _countryRepository;
+        IDriverRepository _driverRepository;
 
-        public CountryService(IUnitOfWork unitOfWork, ICountryRepository countryRepository)
-            : base(unitOfWork, countryRepository)
+        public DriverService(IUnitOfWork unitOfWork, IDriverRepository driverRepository)
+            : base(unitOfWork, driverRepository)
         {
             _unitOfWork = unitOfWork;
-            _countryRepository = countryRepository;
+            _driverRepository = driverRepository;
         }
 
 
-        public Country GetById(int Id)
+        public Driver GetById(int Id)
         {
-            return _countryRepository.GetById(Id);
+            return _driverRepository.GetById(Id);
         }
     }
 }

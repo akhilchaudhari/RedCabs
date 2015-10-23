@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace UnitOfWorkApplication.Repository.Interfaces
 {
-    public interface ICountryRepository : IGenericRepository<Country>
+    public interface IDriverRepository : IGenericRepository<Driver>
     {
-        Country GetById(int id);
+        Driver GetById(int id);
     }
 }
