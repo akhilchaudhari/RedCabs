@@ -33,7 +33,7 @@ namespace UnitOfWorkApplication.Model.Entities
         public bool IsActive { get; set; }
 
         [Required]
-        public bool IsAvailable{ get; set; }
+        public int IsAvailable{ get; set; }
 
         [MaxLength(50)]
         public string LastLocation { get; set; }

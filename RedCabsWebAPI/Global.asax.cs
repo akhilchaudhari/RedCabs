@@ -21,7 +21,7 @@ namespace RedCabsWebAPI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             //Autofac Configuration
-            var builder = new Autofac.ContainerBuilder();
+            var builder = new Autofac.ContainerBuilder();            
 
             builder.RegisterApiControllers(typeof(Global).Assembly).PropertiesAutowired();
 
@@ -29,6 +29,8 @@ namespace RedCabsWebAPI
             builder.RegisterModule(new ServiceModule());
             builder.RegisterModule(new EFModule());
 
+            var formatters = GlobalConfiguration.Configuration.Formatters;
+            formatters.Remove(formatters.XmlFormatter);
 
             var container = builder.Build();
 
