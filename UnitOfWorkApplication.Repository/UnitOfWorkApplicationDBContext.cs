@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using UnitOfWorkApplication.Model.Entities;
 
-namespace UnitOfWorkApplication.Model.Entities
+namespace UnitOfWorkApplication.Model.Repository
 {
     public class UnitOfWorkApplicationDBContext : DbContext
     {

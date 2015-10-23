@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UnitOfWorkApplication.Model.Entities;
 using UnitOfWorkApplication.Repository.Repository;
 using UnitOfWorkApplication.Repository.Interfaces;
+using UnitOfWorkApplication.Model.Repository;
 
 namespace UnitOfWorkApplication_UnitOfWork.IOC
 {
