@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace UnitOfWorkApplication.Model.Entities
 {
-    [Table("Country")]
-    public class Country : Entity<int>
+    [Table("RideDetails")]
+    public class RideDetails : Entity<int>
     {
         [Required]
-        [MaxLength(100)]
-        [Display(Name = "Country Name")]
-        public string Name { get; set; }
+        public DateTime UpdatedOn { get; set; }      
 
-        public virtual IEnumerable<Person> Persons { get; set; }
+        public virtual Driver Driver{ get; set; }
+
+        public virtual User User { get; set; }
+
+        public virtual RideStatus RideStatus { get; set; }
     }
 }

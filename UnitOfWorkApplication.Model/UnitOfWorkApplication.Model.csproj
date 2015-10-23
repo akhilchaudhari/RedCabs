@@ -50,9 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Country.cs" />
+    <Compile Include="Entities\UserLocationDetails.cs" />
+    <Compile Include="Entities\UserCoupons.cs" />
+    <Compile Include="Entities\UserAddress.cs" />
+    <Compile Include="Entities\RideDetails.cs" />
+    <Compile Include="Entities\RideStatus.cs" />
+    <Compile Include="Entities\DriverLocationDetails.cs" />
+    <Compile Include="Entities\Driver.cs" />
+    <Compile Include="Entities\Coupon.cs" />
+    <Compile Include="Entities\CouponValueType.cs" />
+    <Compile Include="Entities\Car.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\CarType.cs" />
     <Compile Include="Entities\UnitOfWorkApplicationDBContext.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Intefaces\IEntity.cs" />
