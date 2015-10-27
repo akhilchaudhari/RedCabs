@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ICarTypeService.cs" />
     <Compile Include="Interfaces\IDriverService.cs" />
     <Compile Include="Interfaces\IEntityService.cs" />
     <Compile Include="Interfaces\IService.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="IOC\RepositoryModule.cs" />
     <Compile Include="IOC\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CarTypeService.cs" />
     <Compile Include="Services\DriverService.cs" />
     <Compile Include="Services\EntityService.cs" />
   </ItemGroup>
