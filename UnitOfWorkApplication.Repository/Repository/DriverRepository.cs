@@ -16,14 +16,20 @@ namespace UnitOfWorkApplication.Repository.Repository
         {
 
         }
+
+        public override IEnumerable<Driver> GetAll()
+        {
+            return GetAll().Where(x => x.IsActive == true && x.IsAvailable == 1);
+        }
+
         public Driver GetById(int id)
         {
-            return FindBy(x => x.Id == id).FirstOrDefault();
+            return FindBy(x => x.Id == id && x.IsActive == true && x.IsAvailable == 1).FirstOrDefault();
         }
 
         public List<Driver> GetDriversByCarType(string carType)
         {
-            return FindBy(x => x.Car.CarType.Type.Equals(carType, StringComparison.OrdinalIgnoreCase)).ToList();
+            return FindBy(x => x.Car.CarType.Type.Equals(carType, StringComparison.OrdinalIgnoreCase) && x.IsActive==true && x.IsAvailable==1).ToList();
         }    
     }
 }
