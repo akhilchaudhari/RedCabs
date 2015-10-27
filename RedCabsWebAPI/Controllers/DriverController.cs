@@ -15,12 +15,12 @@ namespace RedCabsWebAPI.Controllers
 
         public DriverController(IDriverService driverService)
         {
-            this.driverService = driverService;            
+            this.driverService = driverService;
         }
         public List<Driver> Get()
         {
             var drivers = this.driverService.GetAll().ToList();
-           
+
             return drivers;
         }
 
@@ -31,7 +31,11 @@ namespace RedCabsWebAPI.Controllers
             return driver;
         }
 
-        public List<Driver> GetDriversByCarType(string carType);
+        public List<Driver> GetDriversByCarType(string carType)
+        {
+            var drivers = this.driverService.GetDriversByCarType(carType);
+            return drivers;
+        }    
 
     }
 }
