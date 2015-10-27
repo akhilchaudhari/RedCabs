@@ -34,5 +34,21 @@ namespace UnitOfWorkApplication.Model.Entities
         public string LastLocation { get; set; }
 
         public virtual Car Car { get; set; }
+
+        public string Latitude
+        {
+            get
+            {
+                return this.LastLocation.Split(',')[0];
+            }
+        }
+
+        public string Longitude
+        {
+            get
+            {
+                return this.LastLocation.Split(',')[1];
+            }
+        }
     }
 }
