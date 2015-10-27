@@ -20,5 +20,10 @@ namespace UnitOfWorkApplication.Repository.Repository
         {
             return FindBy(x => x.Id == id).FirstOrDefault();
         }
+
+        public List<Driver> GetDriversByCarType(string carType)
+        {
+            return FindBy(x => x.Car.CarType.Type.Equals(carType, StringComparison.OrdinalIgnoreCase)).ToList();
+        }    
     }
 }

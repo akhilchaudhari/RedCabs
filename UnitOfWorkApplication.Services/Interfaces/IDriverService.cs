@@ -11,5 +11,7 @@ namespace UnitOfWorkApplication.Services.Interfaces
     public interface IDriverService : IEntityService<Driver>
     {
         Driver GetById(int Id);
+
+        List<Driver> GetDriversByCarType(string carType);
     }
 }

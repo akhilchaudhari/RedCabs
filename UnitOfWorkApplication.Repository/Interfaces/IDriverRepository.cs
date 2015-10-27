@@ -10,5 +10,6 @@ namespace UnitOfWorkApplication.Repository.Interfaces
     public interface IDriverRepository : IGenericRepository<Driver>
     {
         Driver GetById(int id);
+        List<Driver> GetDriversByCarType(string carType);
     }
 }

@@ -30,5 +30,8 @@ namespace RedCabsWebAPI.Controllers
 
             return driver;
         }
+
+        public List<Driver> GetDriversByCarType(string carType);
+
     }
 }

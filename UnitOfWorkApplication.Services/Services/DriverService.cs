@@ -27,5 +27,10 @@ namespace UnitOfWorkApplication.Services.Services
         {
             return _driverRepository.GetById(Id);
         }
+
+        public List<Driver> GetDriversByCarType(string carType)
+        {
+            return _driverRepository.GetDriversByCarType(carType);
+        }   
     }
 }
