@@ -8,11 +8,8 @@ namespace UnitOfWorkApplication.Model.Entities
     {       
 
         [Required]
-        [MaxLength(20)]
-        public string FirstName { get; set; }
-
-        [MaxLength(20)]
-        public string LastName { get; set; }
+        [MaxLength(50)]
+        public string Name { get; set; }
 
         [Required]
         [MaxLength(50)]

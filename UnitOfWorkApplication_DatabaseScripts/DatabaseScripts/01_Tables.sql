@@ -68,8 +68,7 @@ BEGIN
 create table [User]
 (
 ID INT PRIMARY KEY IDENTITY(1,1),
-FirstName varchar(20) NOT NULL,
-LastName varchar(20),
+FirstName varchar(50) NOT NULL,
 Email varchar(50),
 ContactNo varchar(15) NOT NULL,
 IsActive bit NOT NULL,
