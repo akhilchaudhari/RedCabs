@@ -19,6 +19,9 @@ namespace UnitOfWorkApplication.Model.Entities
         [MaxLength(15)]
         public string ContactNo { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; }
+
         [MaxLength(30)]
         public string LastLocation { get; set; }
 

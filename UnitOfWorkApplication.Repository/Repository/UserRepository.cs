@@ -15,12 +15,7 @@ namespace UnitOfWorkApplication.Repository.Repository
               : base(context)
         {
 
-        }
-
-        public override IEnumerable<User> GetAll()
-        {
-            return GetAll();
-        }
+        }       
 
         public User GetById(int id)
         {
