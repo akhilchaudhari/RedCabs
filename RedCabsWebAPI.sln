@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWorkApplication.Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWorkApplication_DatabaseScripts", "UnitOfWorkApplication_DatabaseScripts\UnitOfWorkApplication_DatabaseScripts.csproj", "{69272426-35C5-4910-AB5C-068B979F4876}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWorkApplication.API", "UnitOfWorkApplication.API\UnitOfWorkApplication.API.csproj", "{19E0502A-581B-4C1B-95C6-253D9C8B365C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{69272426-35C5-4910-AB5C-068B979F4876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69272426-35C5-4910-AB5C-068B979F4876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69272426-35C5-4910-AB5C-068B979F4876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

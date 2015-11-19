@@ -12,10 +12,12 @@ namespace RedCabsWebAPI.Controllers
     public class DriverController : ApiController
     {
         IDriverService driverService;
+        ICarTypeService carTypeService;
 
-        public DriverController(IDriverService driverService)
+        public DriverController(IDriverService driverService, ICarTypeService carTypeService)
         {
             this.driverService = driverService;
+            this.carTypeService = carTypeService;
         }
         public List<Driver> Get()
         {

@@ -15,6 +15,10 @@ namespace UnitOfWorkApplication.Model.Entities
         [MaxLength(15)]
         public string Color { get; set; }
 
+        [Required]
+        [MaxLength(13)]
+        public string CarNumber { get; set; }
+
         public virtual CarType CarType { get; set; }
     }
 }

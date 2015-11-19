@@ -19,7 +19,7 @@ namespace UnitOfWorkApplication.Repository.Repository
 
         public override IEnumerable<Driver> GetAll()
         {
-            return GetAll().Where(x => x.IsActive == true && x.IsAvailable == 1);
+            return FindBy(x => x.IsActive == true && x.IsAvailable == 1);
         }
 
         public Driver GetById(int id)
