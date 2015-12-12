@@ -31,9 +31,19 @@ namespace RedCabsWebAPI.Controllers
             return user;
         }
 
-        public void Post(User user)
+        public bool Post(User user)
         {
-            this.userService.Add(user);
+            bool result = false; 
+            try
+            {
+                this.userService.Add(user);
+                result = true;
+            }
+            catch
+            {
+
+            }
+            return result;
         }    
 
     }

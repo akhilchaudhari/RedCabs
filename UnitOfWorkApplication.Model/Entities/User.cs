@@ -25,5 +25,9 @@ namespace UnitOfWorkApplication.Model.Entities
         [MaxLength(30)]
         public string LastLocation { get; set; }
 
+        [Required]
+        public int ContactVerificationStatus { get; set; }
+
+
     }
 }

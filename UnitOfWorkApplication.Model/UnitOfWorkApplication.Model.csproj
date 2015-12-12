@@ -35,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CabDuration.cs" />
+    <Compile Include="Entities\RideBookingDetails.cs" />
+    <Compile Include="Entities\RideNowModel.cs" />
     <Compile Include="Entities\UserLocationDetails.cs" />
     <Compile Include="Entities\UserCoupons.cs" />
     <Compile Include="Entities\UserAddress.cs" />
