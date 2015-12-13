@@ -12,5 +12,7 @@ namespace UnitOfWorkApplication.Services.Interfaces
     {
         User GetById(int Id);
 
+        bool CheckDuplicateEntryExists(string key, string value);
+
     }
 }

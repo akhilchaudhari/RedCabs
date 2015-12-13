@@ -34,6 +34,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailModel.cs" />
     <Compile Include="Entities\CabDuration.cs" />
     <Compile Include="Entities\RideBookingDetails.cs" />
     <Compile Include="Entities\RideNowModel.cs" />

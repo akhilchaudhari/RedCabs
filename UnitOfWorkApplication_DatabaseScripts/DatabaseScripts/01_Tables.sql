@@ -184,3 +184,13 @@ BEGIN
 Alter table [User] add ContactVerificationStatus INT NOT NULL
 
 END
+
+
+
+IF NOT EXISTS(SELECT * FROM sys.columns WHERE Name = N'Password' AND Object_ID = Object_ID(N'dbo.User'))
+BEGIN
+
+Alter table [User] add Password NVARCHAR(256) NOT NULL
+
+END
+

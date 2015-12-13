@@ -28,6 +28,10 @@ namespace UnitOfWorkApplication.Model.Entities
         [Required]
         public int ContactVerificationStatus { get; set; }
 
+        [Required]
+        [MaxLength(256)]
+        public string Password { get; set; }
+
 
     }
 }
