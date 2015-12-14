@@ -13,5 +13,7 @@ namespace UnitOfWorkApplication.Services.Interfaces
         Driver GetById(int Id);
 
         List<Driver> GetDriversByCarType(string carType);
+
+        IEnumerable<Driver> GetAllAvailableDrivers();
     }
 }

@@ -31,6 +31,11 @@ namespace UnitOfWorkApplication.Services.Services
         public List<Driver> GetDriversByCarType(string carType)
         {
             return _driverRepository.GetDriversByCarType(carType);
-        }   
+        }
+
+        public IEnumerable<Driver> GetAllAvailableDrivers()
+        {
+            return _driverRepository.FindBy(x => x.IsActive && x.IsAvailable==1);
+        }
     }
 }

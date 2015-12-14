@@ -38,17 +38,24 @@ namespace RedCabsWebAPI.Controllers
             try
             {
                 this.userService.Add(user);
-                EmailModel emailModel = new EmailModel();
-                emailModel.RecipientEmailAddress = user.Email;
-                emailModel.RecipientName = user.Name;
+                try
+                {
+                    EmailModel emailModel = new EmailModel();
+                    emailModel.RecipientEmailAddress = user.Email;
+                    emailModel.RecipientName = user.Name;
 
-                byte[] data = Convert.FromBase64String(user.Password);
-                emailModel.RecipientPassword = Encoding.UTF8.GetString(data);
-                emailModel.EmailSubject = String.Format(RideMeResources.Registration_Email_Subject, RideMeResources.CompanyName);
-                emailModel.EmailBody = String.Format(RideMeResources.Registration_Email_Body, emailModel.RecipientName, RideMeResources.CompanyName, RideMeResources.LowestCabRates, RideMeResources.CompanyName,
-                                                emailModel.RecipientEmailAddress, emailModel.RecipientPassword, RideMeResources.CompanyName, RideMeResources.CompanyName);
+                    byte[] data = Convert.FromBase64String(user.Password);
+                    emailModel.RecipientPassword = Encoding.UTF8.GetString(data);
+                    emailModel.EmailSubject = String.Format(RideMeResources.Registration_Email_Subject, RideMeResources.CompanyName);
+                    emailModel.EmailBody = String.Format(RideMeResources.Registration_Email_Body, emailModel.RecipientName, RideMeResources.CompanyName, RideMeResources.LowestCabRates, RideMeResources.CompanyName,
+                                                    emailModel.RecipientEmailAddress, emailModel.RecipientPassword, RideMeResources.CompanyName, RideMeResources.CompanyName);
 
-                SendMail(emailModel);
+                    SendMail(emailModel);
+                }
+                catch
+                {
+
+                }
 
                 result = true;
             }
