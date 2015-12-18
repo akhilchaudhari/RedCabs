@@ -19,65 +19,59 @@ namespace UnitOfWorkApplication.API
         int i = 0;
         public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude, List<Driver> drivers, string apiKey)
         {
-            //Thread.Sleep(5000);
-            //Parallel.ForEach(drivers, driver =>
-            // {
-            //     try
-            //     {
-            //         DistanceMatrixRequest request = new DistanceMatrixRequest();
-            //         request.AddDestination(new Google.Maps.Waypoint(Decimal.Parse(latitude), Decimal.Parse(longitude)));
-            //         request.AddOrigin(new Google.Maps.Waypoint(Decimal.Parse(driver.Latitude), Decimal.Parse(driver.Longitude)));
-            //         request.Avoid = Google.Maps.Avoid.none;
-            //         request.Mode = Google.Maps.TravelMode.driving;
-            //         request.Language = "en";
-            //         request.Units = Google.Maps.Units.metric;
-            //         request.Sensor = false;
-            //         var response = service.GetResponse(request);
-
-            //         if (response.Rows[0].Elements[0].Status == Google.Maps.ServiceResponseStatus.Ok)
-            //         {
-            //             cabDurations.TryAdd(i,new CabDuration(driver.Car.CarType.Type, response.Rows[0].Elements[0].duration.Text, Int32.Parse(response.Rows[0].Elements[0].duration.Value) / 60));
-            //             i++;
-            //         }
-            //     }
-            //     catch(Exception ex)
-            //     {
-
-            //     }
-            // });
-
-            foreach(var driver in drivers)
+            int counter = 0;
+            List<Driver> currentDriverList;
+            List<CabDuration> lstCabDurations = new List<CabDuration>();
+            do
             {
+                currentDriverList = drivers.OrderBy(x => x.Car.CarType.Type).ThenBy(x => x.Id).Skip((counter) * 25).Take(25).ToList();
                 try
                 {
+                    int driverNumber = 1;
+                    counter++;
+                    SortedList<int, Google.Maps.Waypoint> driverList = new SortedList<int, Google.Maps.Waypoint>();
+
+                    currentDriverList.ForEach(x => driverList.Add(driverNumber++, new Google.Maps.Waypoint((Decimal.Parse(x.Latitude)), Decimal.Parse(x.Longitude))));
                     DistanceMatrixRequest request = new DistanceMatrixRequest();
-                    request.AddDestination(new Google.Maps.Waypoint(Decimal.Parse(latitude), Decimal.Parse(longitude)));
-                    request.AddOrigin(new Google.Maps.Waypoint(Decimal.Parse(driver.Latitude), Decimal.Parse(driver.Longitude)));
+                    request.AddOrigin(new Google.Maps.Waypoint(Decimal.Parse(latitude), Decimal.Parse(longitude)));
+                    request.WaypointsDestination = driverList;
                     request.Avoid = Google.Maps.Avoid.none;
                     request.Mode = Google.Maps.TravelMode.driving;
                     request.Language = "en";
                     request.Units = Google.Maps.Units.metric;
                     request.Sensor = false;
                     var response = service.GetResponse(request);
-
-                    if (response.Rows[0].Elements[0].Status == Google.Maps.ServiceResponseStatus.Ok)
+                    foreach (var carType in currentDriverList.Select(x => x.Car.CarType.Type).Distinct())
                     {
-                        cabDurations.TryAdd(i, new CabDuration(driver.Car.CarType.Type, response.Rows[0].Elements[0].duration.Text, Int32.Parse(response.Rows[0].Elements[0].duration.Value) / 60));
-                        i++;
-                    }
+                        var carTypeDetails = currentDriverList.Where(x => x.Car.CarType.Type.Equals(carType));
+                        var durationValue = (Int32.Parse(response.Rows[0].Elements.Take(carTypeDetails.Count()).
+                                                                                    Where(x => x.Status == Google.Maps.ServiceResponseStatus.Ok).ToArray().
+                                                                                    GroupBy(x => x.duration.Value).Min(x => x.Key)) / 60);
+                        lstCabDurations.Add(new CabDuration
+                                (carType,
+                                durationValue + " mins",
+                                durationValue,
+                                carTypeDetails.Select(x=>x.LastLocation).ToList()
+                                ));
+                    }                    
                 }
-                catch (Exception ex)
+                catch
                 {
 
                 }
-            }
+            } while (drivers.Except(currentDriverList).Take(25).Count() > 0);
+
+            return lstCabDurations.
+                    GroupBy(x=>x.CarType).
+                    Select(x=> new CabDuration()
+                    {
+                        CarType =x.Key,
+                        Drivers =x.Select(t=>t.Drivers).FirstOrDefault(),
+                        DurationText =x.Select(t => t.DurationText).FirstOrDefault(),
+                        DurationValue =x.Select(t => t.DurationValue).FirstOrDefault()
+                    });
 
 
-            var lstCabDurations = cabDurations.GroupBy(x => x.Value.CarType).Select(x => new CabDuration {CarType = x.Key, DurationValue = x.Min(t => t.Value.DurationValue), DurationText= x.Min(t => t.Value.DurationValue).ToString() + " mins" , Drivers = drivers.Where(t=>t.Car.CarType.Type==x.Key).Select(y=>y.LastLocation).ToList()});
-
-            return lstCabDurations;
-
-            
 
         }
     }

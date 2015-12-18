@@ -30,12 +30,12 @@ namespace UnitOfWorkApplication.Model.Entities
         {
         }    
 
-        public CabDuration(string carType, string durationText, int durationValue)
+        public CabDuration(string carType, string durationText, int durationValue, List<string> drivers)
         {
             this.CarType = carType;
             this.DurationText = durationText;
             this.DurationValue = durationValue;
-            this.Drivers = new List<string>();
+            this.Drivers =drivers;
         }
     }
 }
