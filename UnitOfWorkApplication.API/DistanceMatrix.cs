@@ -17,7 +17,7 @@ namespace UnitOfWorkApplication.API
         //List<CabDuration> cabDurations = new List<CabDuration>();
         ConcurrentDictionary<int, CabDuration> cabDurations = new ConcurrentDictionary<int, CabDuration>();
         int i = 0;
-        public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude, List<Driver> drivers, string apiKey)
+        public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude, List<Driver> drivers)
         {
             int counter = 0;
             List<Driver> currentDriverList;

@@ -21,10 +21,10 @@ namespace RedCabsWebAPI.Controllers
             this.carTypeService = carTypeService;
         }
 
-        public IEnumerable<CabDuration>  GetCabDurations(string latitude, string longitude, string apiKey)
+        public IEnumerable<CabDuration>  GetCabDurations(string latitude, string longitude)
         {
             DistanceMatrix distanceService = new DistanceMatrix();
-            IEnumerable<CabDuration> cabDurations = distanceService.GetCabDurations(latitude, longitude, this.driverService.GetAllAvailableDrivers().ToList(), apiKey);
+            IEnumerable<CabDuration> cabDurations = distanceService.GetCabDurations(latitude, longitude, this.driverService.GetAllAvailableDrivers().ToList());
             return cabDurations;
         }
 
