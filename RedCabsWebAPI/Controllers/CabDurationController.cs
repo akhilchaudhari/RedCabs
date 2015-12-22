@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using UnitOfWorkApplication.API;
-using UnitOfWorkApplication.Model.Entities;
+using UnitOfWorkApplication.Model.Model;
 using UnitOfWorkApplication.Services.Interfaces;
 
 namespace RedCabsWebAPI.Controllers

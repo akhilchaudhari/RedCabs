@@ -35,9 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmailModel.cs" />
-    <Compile Include="Entities\CabDuration.cs" />
-    <Compile Include="Entities\RideBookingDetails.cs" />
-    <Compile Include="Entities\RideNowModel.cs" />
+    <Compile Include="Model\CabDuration.cs" />
+    <Compile Include="Entities\RateCard.cs" />
+    <Compile Include="Model\RideBookingDetails.cs" />
+    <Compile Include="Model\RateCardModel.cs" />
+    <Compile Include="Model\RideNowModel.cs" />
     <Compile Include="Entities\UserCouponModel.cs" />
     <Compile Include="Entities\UserLocationDetails.cs" />
     <Compile Include="Entities\UserCoupons.cs" />

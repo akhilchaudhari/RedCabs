@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UnitOfWorkApplication.Model.Entities
+namespace UnitOfWorkApplication.Model.Model
 {
     public class CabDuration
     {

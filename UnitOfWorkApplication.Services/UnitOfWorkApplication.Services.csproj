@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRateCardService.cs" />
     <Compile Include="Interfaces\IUserCouponsService.cs" />
     <Compile Include="Interfaces\ICarTypeService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="IOC\RepositoryModule.cs" />
     <Compile Include="IOC\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\RateCardService.cs" />
     <Compile Include="Services\UserCouponsService.cs" />
     <Compile Include="Services\CarTypeService.cs" />
     <Compile Include="Services\UserService.cs" />

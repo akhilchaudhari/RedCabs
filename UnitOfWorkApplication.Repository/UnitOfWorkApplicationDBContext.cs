@@ -35,5 +35,7 @@ namespace UnitOfWorkApplication.Model.Repository
 
         public DbSet<UserLocationDetails> UserLocationDetails { get; set; }
 
+        public DbSet<RateCard> RateCard { get; set; }
+
     }
 }
