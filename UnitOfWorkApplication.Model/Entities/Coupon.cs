@@ -12,7 +12,11 @@ namespace UnitOfWorkApplication.Model.Entities
         [MaxLength(30)]
         public string CouponCode { get; set; }
 
-        public DateTime ExpiryDate { get; set; }
+        [Required]
+        [MaxLength(128)]
+        public string Title { get; set; }
+
+        public DateTime? ExpiryDate { get; set; }
         
         public virtual IEnumerable<CouponValueType> CouponValueType { get; set; }
     }

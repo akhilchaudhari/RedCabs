@@ -10,5 +10,8 @@ namespace UnitOfWorkApplication.Model.Entities
         [MaxLength(15)]
         public string Value { get; set; }
 
+        [Required]
+        [MaxLength(3)]
+        public string Symbol { get; set; }
     }
 }

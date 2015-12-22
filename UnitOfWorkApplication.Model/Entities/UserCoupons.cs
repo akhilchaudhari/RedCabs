@@ -16,5 +16,7 @@ namespace UnitOfWorkApplication.Model.Entities
 
         [Required]
         public virtual Coupon Coupon { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
