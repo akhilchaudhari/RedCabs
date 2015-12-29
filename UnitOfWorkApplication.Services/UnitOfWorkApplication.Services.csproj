@@ -76,6 +76,10 @@
     <Compile Include="Services\EntityService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UnitOfWorkApplication.API\UnitOfWorkApplication.API.csproj">
+      <Project>{19e0502a-581b-4c1b-95c6-253d9c8b365c}</Project>
+      <Name>UnitOfWorkApplication.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnitOfWorkApplication.Model\UnitOfWorkApplication.Model.csproj">
       <Project>{50bfd953-616b-4216-872c-1fe087ca4808}</Project>
       <Name>UnitOfWorkApplication.Model</Name>

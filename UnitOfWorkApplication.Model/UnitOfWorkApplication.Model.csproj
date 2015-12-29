@@ -37,6 +37,7 @@
     <Compile Include="EmailModel.cs" />
     <Compile Include="Model\CabDuration.cs" />
     <Compile Include="Entities\RateCard.cs" />
+    <Compile Include="Model\LocationDetailsModel.cs" />
     <Compile Include="Model\RideBookingDetails.cs" />
     <Compile Include="Model\RateCardModel.cs" />
     <Compile Include="Model\RideNowModel.cs" />

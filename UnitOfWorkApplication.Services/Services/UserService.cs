@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnitOfWorkApplication.Model.Model;
+using UnitOfWorkApplication.API;
 
 namespace UnitOfWorkApplication.Services.Services
 {
@@ -14,12 +16,15 @@ namespace UnitOfWorkApplication.Services.Services
     {
         IUnitOfWork _unitOfWork;
         IUserRepository _UserRepository;
+        DistanceMatrix distanceAPIService;
+        IRateCardService rateCardService;    
 
-        public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository)
+        public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository, IRateCardRepository rateCardRepository)
             : base(unitOfWork, UserRepository)
         {
             _unitOfWork = unitOfWork;
             _UserRepository = UserRepository;
+            rateCardService = new RateCardService(unitOfWork, rateCardRepository);
         }
 
 
@@ -42,6 +47,14 @@ namespace UnitOfWorkApplication.Services.Services
 
             }
             return result;
+        }
+
+        public RideNowModel GetFareEstimate(RideNowModel model)
+        {
+            distanceAPIService = new DistanceMatrix();
+            model = distanceAPIService.GetDistanceDetails(model);
+            model.TotalFare = this.rateCardService.GetFare(model.TotalDistance, model.CabType, false, "");
+            return model;
         }
     }
 }

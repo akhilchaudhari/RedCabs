@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\RideNowController.cs" />
     <Compile Include="Controllers\RateCardController.cs" />
     <Compile Include="Controllers\UserCouponsController.cs" />
     <Compile Include="Controllers\CarTypeController.cs" />
@@ -149,6 +150,8 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\RedCabsAPI.pubxml" />
+    <None Include="Properties\PublishProfiles\ridemecabs.pubxml" />
+    <None Include="Properties\PublishProfiles\RideMeCabsAPI.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

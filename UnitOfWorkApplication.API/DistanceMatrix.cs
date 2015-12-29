@@ -16,11 +16,11 @@ namespace UnitOfWorkApplication.API
 {
     public class DistanceMatrix
     {
-        private const string BaseURI = "https://maps.google.com/maps/api/distancematrix/";
+        private const string BaseURI = "https://maps.googleapis.com/maps/api/distancematrix/json?";
         DistanceMatrixService service = new DistanceMatrixService();
-        //List<CabDuration> cabDurations = new List<CabDuration>();
         ConcurrentDictionary<int, CabDuration> cabDurations = new ConcurrentDictionary<int, CabDuration>();
-        private const string API_KEY = "AIzaSyAM6e58t0Fe-D4zAy6JeHOQ__YjA5BErog";
+        private const string API_KEY = "AIzaSyAM6e58t0Fe-D4zAy6JeHOQ__YjA5BErog";        
+
         public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude, List<Driver> drivers)
         {
             int counter = 0;
@@ -32,7 +32,7 @@ namespace UnitOfWorkApplication.API
                 try
                 {
                     StringBuilder requestUrl = new StringBuilder();                    
-                    requestUrl.Append("https://maps.googleapis.com/maps/api/distancematrix/json?");
+                    requestUrl.Append(BaseURI);
                     requestUrl.Append("origins=");
                     requestUrl.Append(latitude.ToString() + "," +  longitude.ToString() + "|");
 
@@ -96,5 +96,45 @@ namespace UnitOfWorkApplication.API
 
 
         }
+
+        public RideNowModel GetDistanceDetails(RideNowModel model)
+        {
+            StringBuilder requestUrl = new StringBuilder();
+            requestUrl.Append(BaseURI);
+            requestUrl.Append("origins=");
+            requestUrl.Append(model.SourceLocation.Latitude.ToString() + "," + model.SourceLocation.Longitude.ToString() + "|");
+
+            requestUrl.Append("&destinations=");
+            requestUrl.Append(model.DestinationLocation.Latitude.ToString() + "," + model.DestinationLocation.Longitude.ToString() + "|");
+
+            requestUrl.Append("&language=en");
+
+            requestUrl.Append("&mode=driving");
+
+            requestUrl.Append("&avoid=none");
+
+            requestUrl.Append("&units=metric");
+
+            requestUrl.Append("&key=" + API_KEY);
+
+            WebRequest webRequest = WebRequest.Create(requestUrl.ToString());
+
+            WebResponse webResponse = webRequest.GetResponse();
+
+            Stream dataStream = webResponse.GetResponseStream();
+
+            StreamReader reader = new StreamReader(dataStream);
+
+            string responseFromServer = reader.ReadToEnd();
+
+            var responseList = JsonConvert.DeserializeObject<DistanceMatrixResponse>(responseFromServer);
+
+            model.TotalDistance = Double.Parse(responseList.Rows[0].Elements[0].distance.Value)/1000;
+
+            model.TotalTime = responseList.Rows[0].Elements[0].duration.Text;
+
+            return model;
+
+        }      
     }
 }

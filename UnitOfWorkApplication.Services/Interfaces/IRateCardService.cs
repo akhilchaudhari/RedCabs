@@ -10,5 +10,6 @@ namespace UnitOfWorkApplication.Services.Interfaces
 
     public interface IRateCardService : IEntityService<RateCard>
     {
+        Double GetFare(Double distance, String cabType, bool isAirportDrop, string sourceCityName);
     }
 }
