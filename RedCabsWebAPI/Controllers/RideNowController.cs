@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -23,8 +24,9 @@ namespace RedCabsWebAPI.Controllers
             this.userService = userService;
         }      
 
-        public RideNowModel GetRideEstimates(RideNowModel model)
+        public RideNowModel GetRideEstimates(string serializableModel)
         {
+            RideNowModel model = JsonConvert.DeserializeObject<RideNowModel>(serializableModel);
             this.userService.GetFareEstimate(model);
             return model;
         }

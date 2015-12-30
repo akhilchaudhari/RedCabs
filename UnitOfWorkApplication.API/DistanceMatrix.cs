@@ -77,7 +77,7 @@ namespace UnitOfWorkApplication.API
                                 ));
                     }                    
                 }
-                catch
+                catch(Exception ex)
                 {
 
                 }
@@ -98,7 +98,7 @@ namespace UnitOfWorkApplication.API
         }
 
         public RideNowModel GetDistanceDetails(RideNowModel model)
-        {
+        {          
             StringBuilder requestUrl = new StringBuilder();
             requestUrl.Append(BaseURI);
             requestUrl.Append("origins=");
