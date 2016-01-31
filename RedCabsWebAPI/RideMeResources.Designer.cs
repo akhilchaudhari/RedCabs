@@ -106,6 +106,15 @@ namespace RedCabsWebAPI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2.
+        /// </summary>
+        public static string MinimumCabDuration {
+            get {
+                return ResourceManager.GetString("MinimumCabDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello {0},
         ///
         ///Welcome to {1} cabs

@@ -137,6 +137,10 @@
     <value>9</value>
     <comment>Lowest rate per km for a cab</comment>
   </data>
+  <data name="MinimumCabDuration" xml:space="preserve">
+    <value>2</value>
+    <comment>Minimum cab duration if the cab is at user location</comment>
+  </data>
   <data name="Registration_Email_Body" xml:space="preserve">
     <value>Hello {0},
 

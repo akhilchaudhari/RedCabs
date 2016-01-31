@@ -28,5 +28,11 @@ namespace UnitOfWorkApplication.Model.Entities
 
         [Required]
         public bool IsAirportDrop { get; set; }
+
+        [Required]
+        public bool Other{ get; set; }
+
+        [Required]
+        public int Position { get; set; }
     }
 }

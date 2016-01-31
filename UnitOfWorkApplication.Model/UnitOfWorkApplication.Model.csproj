@@ -37,9 +37,14 @@
     <Compile Include="EmailModel.cs" />
     <Compile Include="Model\CabDuration.cs" />
     <Compile Include="Entities\RateCard.cs" />
+    <Compile Include="Model\CheckDuplicateEntry.cs" />
+    <Compile Include="Model\DistanceBreakup.cs" />
+    <Compile Include="Model\GoogleMapDirections.cs" />
+    <Compile Include="Model\KeyValuePair.cs" />
     <Compile Include="Model\LocationDetailsModel.cs" />
     <Compile Include="Model\RideBookingDetails.cs" />
     <Compile Include="Model\RateCardModel.cs" />
+    <Compile Include="Model\RideEstimate.cs" />
     <Compile Include="Model\RideNowModel.cs" />
     <Compile Include="Entities\UserCouponModel.cs" />
     <Compile Include="Entities\UserLocationDetails.cs" />
@@ -56,6 +61,7 @@
     <Compile Include="Entities\CarType.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Intefaces\IEntity.cs" />
+    <Compile Include="Model\UserDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

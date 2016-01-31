@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWorkApplication_Datab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitOfWorkApplication.API", "UnitOfWorkApplication.API\UnitOfWorkApplication.API.csproj", "{19E0502A-581B-4C1B-95C6-253D9C8B365C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RideMe.Infrastructure", "RideMe.Infrastructure\RideMe.Infrastructure.csproj", "{A171959C-89C1-4C9C-B9D7-EF65B82765B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19E0502A-581B-4C1B-95C6-253D9C8B365C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A171959C-89C1-4C9C-B9D7-EF65B82765B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A171959C-89C1-4C9C-B9D7-EF65B82765B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A171959C-89C1-4C9C-B9D7-EF65B82765B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A171959C-89C1-4C9C-B9D7-EF65B82765B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,7 +13,9 @@ namespace UnitOfWorkApplication.Services.Interfaces
     {
         User GetById(int Id);
 
-        bool CheckDuplicateEntryExists(string key, string value);
+        List<KeyValuePair> CheckDuplicateEntryExists(List<KeyValuePair> model);
+
+        UserDetails AuthenticateUser(List<KeyValuePair> model);
 
         RideNowModel GetFareEstimate(RideNowModel model);
 

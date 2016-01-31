@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnitOfWorkApplication.Model.Model;
 
 namespace UnitOfWorkApplication.Services.Interfaces
 {
 
     public interface IRateCardService : IEntityService<RateCard>
     {
-        Double GetFare(Double distance, String cabType, bool isAirportDrop, string sourceCityName);
+        RideEstimate GetFare(RideNowModel model, bool isAirportDrop, string sourceCityName);
     }
 }

@@ -19,10 +19,9 @@ namespace UnitOfWorkApplication.Model.Model
 
         public LocationDetailsModel DestinationLocation { get; set; }
 
-        public Double TotalDistance { get; set; }
+        public RideEstimate RideEstimate { get; set; }
 
-        public Double TotalFare { get; set; }
+        public List<DistanceBreakup> DistanceBreakup;
 
-        public String TotalTime { get; set; }
     }
 }

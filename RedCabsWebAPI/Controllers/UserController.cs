@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Web.Http;
 using UnitOfWorkApplication.Model;
 using UnitOfWorkApplication.Model.Entities;
+using UnitOfWorkApplication.Model.Model;
 using UnitOfWorkApplication.Services.Interfaces;
 
 namespace RedCabsWebAPI.Controllers
@@ -32,12 +34,18 @@ namespace RedCabsWebAPI.Controllers
             return user;
         }
 
-        public bool Post(User user)
+        public UserDetails Post(User user)
         {
-            bool result = false; 
+            UserDetails userDetails = new UserDetails();            
             try
             {
                 this.userService.Add(user);
+                userDetails.Id = user.Id;
+                userDetails.Name = user.Name;
+                userDetails.Email = user.Email;
+                userDetails.ContactNo = user.ContactNo;
+                userDetails.AvailableCouponCount = 2;
+
                 try
                 {
                     EmailModel emailModel = new EmailModel();
@@ -55,21 +63,32 @@ namespace RedCabsWebAPI.Controllers
                 catch
                 {
 
-                }
-
-                result = true;
+                }               
             }
             catch
             {
 
             }
-            return result;
+            return userDetails;
         }    
 
         [HttpGet]
-        public bool CheckDuplicateEntryExists(string key, string value)
+        public List<KeyValuePair> CheckDuplicateEntryExists(string json)
         {
-            return this.userService.CheckDuplicateEntryExists(key, value);
+            List<KeyValuePair> model = new List<KeyValuePair>();
+            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
+            var keyValuePair = this.userService.CheckDuplicateEntryExists(model);
+            return keyValuePair;
+        }
+
+        [HttpGet]
+        public UserDetails AuthenticateUser(string json)
+        {
+            List<KeyValuePair> model = new List<KeyValuePair>();
+            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
+            var result = this.userService.AuthenticateUser(model);
+            return result;
+
         }
 
         private void SendMail(EmailModel model)
