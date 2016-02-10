@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RideMe.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,17 +35,27 @@ namespace RedCabsWebAPI.Controllers
             return user;
         }
 
-        public UserDetails Post(User user)
+        public User Post(User user)
         {
-            UserDetails userDetails = new UserDetails();            
             try
             {
-                this.userService.Add(user);
-                userDetails.Id = user.Id;
-                userDetails.Name = user.Name;
-                userDetails.Email = user.Email;
-                userDetails.ContactNo = user.ContactNo;
-                userDetails.AvailableCouponCount = 2;
+                var result = this.userService.CheckDuplicateEntryExists(user.ContactNo, user.Email);
+                if(result.Count!=0)
+                {
+                    user = new User();
+                    if(result.Contains("contact"))
+                    {
+                        user.IsDuplicateContact = true;
+                    }
+                    if (result.Contains("email"))
+                    {
+                        user.IsDuplicateEmail = true;
+                    }
+                    return user;
+                }
+
+
+                this.userService.AddUser(user);
 
                 try
                 {
@@ -69,17 +80,8 @@ namespace RedCabsWebAPI.Controllers
             {
 
             }
-            return userDetails;
-        }    
-
-        [HttpGet]
-        public List<KeyValuePair> CheckDuplicateEntryExists(string json)
-        {
-            List<KeyValuePair> model = new List<KeyValuePair>();
-            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
-            var keyValuePair = this.userService.CheckDuplicateEntryExists(model);
-            return keyValuePair;
-        }
+            return user;
+        }          
 
         [HttpGet]
         public UserDetails AuthenticateUser(string json)

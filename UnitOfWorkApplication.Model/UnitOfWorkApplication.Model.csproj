@@ -37,7 +37,6 @@
     <Compile Include="EmailModel.cs" />
     <Compile Include="Model\CabDuration.cs" />
     <Compile Include="Entities\RateCard.cs" />
-    <Compile Include="Model\CheckDuplicateEntry.cs" />
     <Compile Include="Model\DistanceBreakup.cs" />
     <Compile Include="Model\GoogleMapDirections.cs" />
     <Compile Include="Model\KeyValuePair.cs" />

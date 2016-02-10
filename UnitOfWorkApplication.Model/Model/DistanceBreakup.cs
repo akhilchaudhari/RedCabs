@@ -9,7 +9,7 @@ namespace UnitOfWorkApplication.Model.Model
     public class DistanceBreakup
     {
         public int Position { get; set; }
-        public int Value { get; set; }
+        public double Value { get; set; }
         public bool IsInBound { get; set; }
     }
 }

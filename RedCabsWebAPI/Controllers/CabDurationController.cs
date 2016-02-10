@@ -35,6 +35,7 @@ namespace RedCabsWebAPI.Controllers
             DistanceMatrix distanceService = new DistanceMatrix();
             IEnumerable<CabDuration> cabDurations = distanceService.GetCabDurations(model.Where(x=>x.Key.Equals("latitude",StringComparison.OrdinalIgnoreCase)).First().Value,
                                                                                     model.Where(x => x.Key.Equals("longitude", StringComparison.OrdinalIgnoreCase)).First().Value,
+                                                                                    Int32.Parse(model.Where(x => x.Key.Equals("driverId", StringComparison.OrdinalIgnoreCase)).First().Value),
                                                                                     this.driverService.GetAllAvailableDrivers().ToList());
             return cabDurations;
         }

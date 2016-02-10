@@ -13,7 +13,10 @@ namespace UnitOfWorkApplication.Services.Interfaces
     {
         User GetById(int Id);
 
-        List<KeyValuePair> CheckDuplicateEntryExists(List<KeyValuePair> model);
+        List<string> CheckDuplicateEntryExists(string contact, string email);
+
+        User AddUser(User user);
+
 
         UserDetails AuthenticateUser(List<KeyValuePair> model);
 

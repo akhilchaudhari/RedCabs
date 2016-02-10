@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UnitOfWorkApplication.Model.Entities
@@ -32,6 +33,13 @@ namespace UnitOfWorkApplication.Model.Entities
         [MaxLength(256)]
         public string Password { get; set; }
 
+        public List<UserCoupons> Coupons { get; set; }
 
+        [NotMapped]
+        public bool IsDuplicateContact { get; set;}
+
+        [NotMapped]
+        public bool IsDuplicateEmail { get; set; }
     }
 }
+

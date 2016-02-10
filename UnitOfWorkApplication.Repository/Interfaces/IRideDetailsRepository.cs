@@ -7,8 +7,8 @@ using UnitOfWorkApplication.Model.Entities;
 
 namespace UnitOfWorkApplication.Repository.Interfaces
 {
-    public interface IRideDetailsRepository
+    public interface IRideDetailsRepository: IGenericRepository<RideDetails>
     {
-        bool BookRide(RideDetails model);
+        bool ConfirmRide(RideDetails model);
     }
 }

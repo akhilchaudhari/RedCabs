@@ -18,6 +18,8 @@ namespace UnitOfWorkApplication.Model.Model
         public double TotalDistance{ get; set; }
         public double OutBoundDistance{ get; set; }
         public int NightHalt{ get; set; }
+
+        public double NightHaltCharges { get; set; }
         public double ServiceTax{ get; set; }
         public bool IsRoundTrip{ get; set; }
         public double RoundTripFareFactor{ get; set; }
@@ -25,6 +27,7 @@ namespace UnitOfWorkApplication.Model.Model
         public bool IsAirportDrop { get; set; }
 
         public string SourceCityName { get; set; }
+
     }
 
 }

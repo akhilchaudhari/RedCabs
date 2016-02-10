@@ -15,12 +15,14 @@ namespace UnitOfWorkApplication.Services.Services
     {
         IUnitOfWork _unitOfWork;
         IRateCardRepository _rateCardRepository;
+        IUserCouponsRepository _couponRespository;
 
-        public RateCardService(IUnitOfWork unitOfWork, IRateCardRepository rateCardRepository)
+        public RateCardService(IUnitOfWork unitOfWork, IRateCardRepository rateCardRepository, IUserCouponsRepository couponRespository)
             : base(unitOfWork, rateCardRepository)
         {
             _unitOfWork = unitOfWork;
             _rateCardRepository = rateCardRepository;
+            _couponRespository = couponRespository;
         }
 
         public RideEstimate GetFare(RideNowModel model, bool isAirportDrop, string sourceCityName)
@@ -29,80 +31,44 @@ namespace UnitOfWorkApplication.Services.Services
             Double inBoundTotalFare = 0;
             Double outBoundTotalFare = 0;
             Double airportFare = 0;            
-            int currentStepDistance = 0;
+            double currentStepDistance = 0;
             RateCard currentRateMaxDistance;
             int rateCardCounter = 0;
-            double roundtripFactor = rateModel.Where(x => x.DistanceDisplayText.Equals("RoundTripFactor", StringComparison.OrdinalIgnoreCase)).First().Price;           
+            double maxDistanceValue = 0;
+            double roundtripFactor = rateModel.Where(x => x.DistanceDisplayText.Equals("RoundTripFactor", StringComparison.OrdinalIgnoreCase)).First().Price; 
+            model.RideEstimate.NightHaltCharges = rateModel.Where(x => x.DistanceDisplayText.Equals("NightHalt", StringComparison.OrdinalIgnoreCase)).First().Price;
 
             foreach (var step in model.DistanceBreakup.OrderBy(x=>x.Position))
             {
                 currentStepDistance = step.Value;
-                currentRateMaxDistance = rateModel[rateCardCounter];
+                currentRateMaxDistance = rateModel.Where(x=>x.Position>0).ToList()[rateCardCounter];
+                maxDistanceValue = maxDistanceValue == 0? currentRateMaxDistance.MaxDistanceValue:maxDistanceValue;
 
                 #region BaseCharges
-                if (currentStepDistance<=currentRateMaxDistance.MaxDistanceValue)
-                {
-                    if (step.IsInBound)
-                    {
-                        inBoundTotalFare += (currentRateMaxDistance.Price / currentRateMaxDistance.MaxDistanceValue) * currentStepDistance;
-                    }
-                    else
-                    {
-                        outBoundTotalFare += (currentRateMaxDistance.Price / currentRateMaxDistance.MaxDistanceValue) * currentStepDistance * roundtripFactor;
-                    }
-                    currentStepDistance = 0;
-                    currentRateMaxDistance.MaxDistanceValue -= currentStepDistance;
-                }
-                else
-                {
-                    if (step.IsInBound)
-                    {
-                        inBoundTotalFare += currentRateMaxDistance.Price;
-                    }
-                    else
-                    {
-                        outBoundTotalFare += currentRateMaxDistance.Price * roundtripFactor;
-                    }
-                    currentStepDistance -= currentRateMaxDistance.MaxDistanceValue;
-                    currentRateMaxDistance.MaxDistanceValue = 0;
-                }                
-
-                if(currentStepDistance==0)
-                {
-                    continue;
-                }
-                else
-                {
-                    rateCardCounter++;
-                    currentRateMaxDistance = rateModel[rateCardCounter];
-                }
-                #endregion
-
-                #region PerKMCharges
-                if(rateCardCounter>0)
+                if (!(currentRateMaxDistance.IsPerKmPrice || currentRateMaxDistance.IsAirportDrop || currentRateMaxDistance.Other))
                 {
                     if (currentStepDistance <= currentRateMaxDistance.MaxDistanceValue)
                     {
                         if (step.IsInBound)
                         {
-                            inBoundTotalFare += currentRateMaxDistance.Price * currentStepDistance;
+                            inBoundTotalFare += (currentRateMaxDistance.Price / maxDistanceValue) * currentStepDistance;
                         }
                         else
                         {
-                            outBoundTotalFare += currentRateMaxDistance.Price * currentStepDistance * roundtripFactor;
+                            outBoundTotalFare += (currentRateMaxDistance.Price / maxDistanceValue) * currentStepDistance * roundtripFactor;
                         }
-                        currentStepDistance = 0;
                         currentRateMaxDistance.MaxDistanceValue -= currentStepDistance;
+                        currentStepDistance = 0;
                     }
                     else
                     {
                         if (step.IsInBound)
                         {
-                            inBoundTotalFare += currentRateMaxDistance.Price;
+                            inBoundTotalFare += (currentRateMaxDistance.Price / maxDistanceValue) * currentRateMaxDistance.MaxDistanceValue;
                         }
                         else
                         {
-                            outBoundTotalFare += currentRateMaxDistance.Price * roundtripFactor;
+                            outBoundTotalFare += (currentRateMaxDistance.Price / maxDistanceValue) * currentRateMaxDistance.MaxDistanceValue * roundtripFactor;
                         }
                         currentStepDistance -= currentRateMaxDistance.MaxDistanceValue;
                         currentRateMaxDistance.MaxDistanceValue = 0;
@@ -115,10 +81,55 @@ namespace UnitOfWorkApplication.Services.Services
                     else
                     {
                         rateCardCounter++;
-                        currentRateMaxDistance = rateModel[rateCardCounter];
+                        currentRateMaxDistance = rateModel.Where(x => x.Position > 0).ToList()[rateCardCounter];
                     }
                 }
-                #endregion
+                else
+                {
+                    #endregion
+
+                    #region PerKMCharges
+                    if (rateCardCounter > 0)
+                    {
+                        if (currentStepDistance <= currentRateMaxDistance.MaxDistanceValue)
+                        {
+                            if (step.IsInBound)
+                            {
+                                inBoundTotalFare += currentRateMaxDistance.Price * currentStepDistance;
+                            }
+                            else
+                            {
+                                outBoundTotalFare += currentRateMaxDistance.Price * currentStepDistance * roundtripFactor;
+                            }
+                            currentStepDistance = 0;
+                            currentRateMaxDistance.MaxDistanceValue -= currentStepDistance;
+                        }
+                        else
+                        {
+                            if (step.IsInBound)
+                            {
+                                inBoundTotalFare += currentRateMaxDistance.Price;
+                            }
+                            else
+                            {
+                                outBoundTotalFare += currentRateMaxDistance.Price * roundtripFactor;
+                            }
+                            currentStepDistance -= currentRateMaxDistance.MaxDistanceValue;
+                            currentRateMaxDistance.MaxDistanceValue = 0;
+                        }
+
+                        if (currentStepDistance == 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            rateCardCounter++;
+                            currentRateMaxDistance = rateModel[rateCardCounter];
+                        }
+                    }
+                    #endregion
+                }
             }
             model.RideEstimate.OneWayBaseFare = inBoundTotalFare+outBoundTotalFare;
             model.RideEstimate.TwoWayBaseFare = inBoundTotalFare * 2+ outBoundTotalFare;
@@ -132,6 +143,7 @@ namespace UnitOfWorkApplication.Services.Services
                     model.RideEstimate.TwoWayBaseFare = 0;
                 }                
             }
+            model.RideEstimate.ServiceTax = 12.5;
             return model.RideEstimate;
         }
     }

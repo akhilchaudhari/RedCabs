@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRideNowRepository.cs" />
     <Compile Include="Interfaces\IRateCardRepository.cs" />
     <Compile Include="Interfaces\IUserCouponsRepository.cs" />
     <Compile Include="Interfaces\ICarTypeRepository.cs" />

@@ -15,7 +15,7 @@ namespace RedCabsWebAPI.Controllers
     {
         IDriverService driverService;
         ICarTypeService carTypeService;
-        IUserService userService;
+        IUserService userService;        
 
         public RideNowController(IDriverService driverService, ICarTypeService carTypeService, IUserService userService)
         {
@@ -24,11 +24,23 @@ namespace RedCabsWebAPI.Controllers
             this.userService = userService;
         }      
 
-        public RideNowModel GetRideEstimates(string serializableModel)
+        public RideNowModel GetRideEstimates(string json)
         {
-            RideNowModel model = JsonConvert.DeserializeObject<RideNowModel>(serializableModel);
-            this.userService.GetFareEstimate(model);
-            return model;
+            List<KeyValuePair> model = new List<KeyValuePair>();
+            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
+            RideNowModel rideNowModel = JsonConvert.DeserializeObject<RideNowModel>(model[0].Value);
+            rideNowModel = this.userService.GetFareEstimate(rideNowModel);
+            return rideNowModel;
         }
+
+        //public DriverDetails ConfirmRide(string json)
+        //{
+        //    List<KeyValuePair> model = new List<KeyValuePair>();
+        //    model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
+        //    RideNowModel rideNowModel = JsonConvert.DeserializeObject<RideNowModel>(model[0].Value);
+        //    rideNowModel = this.userService.GetFareEstimate(rideNowModel);
+        //    return rideNowModel.DriverDetails;
+        //}
+
     }
 }

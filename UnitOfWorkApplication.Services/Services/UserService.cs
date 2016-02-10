@@ -19,14 +19,14 @@ namespace UnitOfWorkApplication.Services.Services
         IUserCouponsRepository _userCouponRepository;
         DistanceMatrix distanceAPIService;
         IRateCardService rateCardService;
-        IUserCouponsService userCouponService;
+        IUserCouponsService userCouponService;        
 
         public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository, IRateCardRepository rateCardRepository, IUserCouponsRepository _userCouponRepository)
             : base(unitOfWork, UserRepository)
         {
             _unitOfWork = unitOfWork;
             _UserRepository = UserRepository;
-            rateCardService = new RateCardService(unitOfWork, rateCardRepository);
+            rateCardService = new RateCardService(unitOfWork, rateCardRepository, _userCouponRepository);
             this._userCouponRepository = _userCouponRepository;
         }
 
@@ -36,23 +36,29 @@ namespace UnitOfWorkApplication.Services.Services
             return _UserRepository.GetById(Id);
         }
 
-        public List<KeyValuePair> CheckDuplicateEntryExists(List<KeyValuePair> model)
+        public List<string> CheckDuplicateEntryExists(string contact, string email)
         {
-            bool result=false;
-            List<KeyValuePair> keyValuePair = new List<KeyValuePair>();
-            foreach (var entry in model)
+            List<string> duplicateEntities = new List<string>();
+
+            var userList = this._UserRepository.FindBy(x => x.ContactNo.Equals(contact, StringComparison.OrdinalIgnoreCase) || x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+            var user = userList.Where(x => x.ContactNo.Equals(contact)).FirstOrDefault();
+            if(user!=null)
             {
-                if (entry.Key.Equals("contact", StringComparison.OrdinalIgnoreCase))
-                {                    
-                    result = this._UserRepository.FindBy(x => x.ContactNo.Equals(entry.Value, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null ? true : false;
-                }
-                else
-                { 
-                        result = this._UserRepository.FindBy(x => x.Email.Equals(entry.Value, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null ? true : false;                    
-                }
-                keyValuePair.Add(new KeyValuePair() { Key = entry.Key, Value = result.ToString() });
+                duplicateEntities.Add("contact");
             }
-            return keyValuePair;
+            user = userList.Where(x => x.Email.Equals(email)).FirstOrDefault();
+            if (user != null)
+            {
+                duplicateEntities.Add("email");
+            }           
+            return duplicateEntities;
+        }
+
+        public User AddUser(User user)
+        {
+            user.Coupons = this.userCouponService.GetById(1);
+            this._UserRepository.Add(user);
+            return user;
         }
 
         public UserDetails AuthenticateUser(List<KeyValuePair> model)
@@ -79,7 +85,7 @@ namespace UnitOfWorkApplication.Services.Services
                 userDetails.Password = userModel.Password;
 
                 userCouponService = new UserCouponsService(_unitOfWork, _userCouponRepository);
-                userDetails.AvailableCouponCount = userCouponService.GetActiveCouponsForUser(userModel.Id).Count;
+                userDetails.Coupons = userCouponService.GetActiveCouponsForUser(userModel.Id);
             }                           
             
             return userDetails;

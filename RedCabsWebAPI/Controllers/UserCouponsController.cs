@@ -33,7 +33,7 @@ namespace RedCabsWebAPI.Controllers
             return userCoupons;
         }
 
-        public List<UserCouponModel> GetActiveCouponsForUser(string json)
+        public List<Coupon> GetActiveCouponsForUser(string json)
         {
 
             List<KeyValuePair> model = new List<KeyValuePair>();
@@ -41,7 +41,7 @@ namespace RedCabsWebAPI.Controllers
             int userId = Int32.Parse(model.Where(x => x.Key.Equals("userid",StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value);
 
             var userCoupons = this.UserCouponsService.GetActiveCouponsForUser(userId);
-            var userCouponDetails = userCoupons.Select(x => new UserCouponModel { CouponId = x.Coupon.Id, CouponCode = x.Coupon.CouponCode, Description = x.Coupon.Title }).ToList();
+            var userCouponDetails = userCoupons.Select(x => x.Coupon).ToList();
             return userCouponDetails;
         }
     }

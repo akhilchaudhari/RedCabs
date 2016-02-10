@@ -15,5 +15,33 @@ namespace UnitOfWorkApplication.Model.Entities
         public virtual User User { get; set; }
 
         public virtual RideStatus RideStatus { get; set; }
+
+        public virtual Coupon SelectedCoupon { get; set;}
+
+        public string SourceLocation{ get; set; }
+
+        public string SourceAddress { get; set; }
+
+        public int Driver_Id { get; set; }
+
+        public string DestinationLocation { get; set; }
+
+        public string DestinationAddress { get; set; }
+
+        public DateTime RideDate { get; set; }
+
+        public double BaseFare { get; set; }
+
+        public int NightHalt { get; set; }
+
+        public bool isRoundTrip { get; set; }
+
+        public double TotalFare { get; set; }
+
+        public double RideRating { get; set; }
+
+        public string Feedback { get; set; }
+
+        public bool isAirportDrop { get; set; }
     }
 }

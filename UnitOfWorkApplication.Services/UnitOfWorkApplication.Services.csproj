@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRideDetailsService.cs" />
     <Compile Include="Interfaces\IRateCardService.cs" />
     <Compile Include="Interfaces\IUserCouponsService.cs" />
     <Compile Include="Interfaces\ICarTypeService.cs" />
@@ -68,7 +69,9 @@
     <Compile Include="IOC\RepositoryModule.cs" />
     <Compile Include="IOC\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\RateCardService.cs" />
+    <Compile Include="Services\RideDetailsService.cs" />
     <Compile Include="Services\UserCouponsService.cs" />
     <Compile Include="Services\CarTypeService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -76,6 +79,10 @@
     <Compile Include="Services\EntityService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RideMe.Infrastructure\RideMe.Infrastructure.csproj">
+      <Project>{a171959c-89c1-4c9c-b9d7-ef65b82765b2}</Project>
+      <Name>RideMe.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnitOfWorkApplication.API\UnitOfWorkApplication.API.csproj">
       <Project>{19e0502a-581b-4c1b-95c6-253d9c8b365c}</Project>
       <Name>UnitOfWorkApplication.API</Name>

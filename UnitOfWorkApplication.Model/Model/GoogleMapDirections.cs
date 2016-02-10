@@ -41,7 +41,7 @@ namespace UnitOfWorkApplication.Model.Model
     public class Distance
     {
         public string text { get; set; }
-        public int value { get; set; }
+        public double value { get; set; }
     }
 
     public class Duration
@@ -65,7 +65,7 @@ namespace UnitOfWorkApplication.Model.Model
     public class Distance2
     {
         public string text { get; set; }
-        public int value { get; set; }
+        public double value { get; set; }
     }
 
     public class Duration2

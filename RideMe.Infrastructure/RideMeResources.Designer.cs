@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RedCabsWebAPI {
+namespace RideMe.Infrastructure {
     using System;
     
     

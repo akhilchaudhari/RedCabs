@@ -17,7 +17,9 @@ namespace UnitOfWorkApplication.Model.Entities
         public string Title { get; set; }
 
         public DateTime? ExpiryDate { get; set; }
+
+        public int Value { get; set; }
         
-        public virtual IEnumerable<CouponValueType> CouponValueType { get; set; }
+        public virtual CouponValueType CouponValueType { get; set; }
     }
 }

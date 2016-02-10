@@ -21,7 +21,7 @@ namespace UnitOfWorkApplication.Repository.Repository
             return FindBy(x => x.Id == id).FirstOrDefault();
         }
 
-        public bool BookRide(RideDetails model)
+        public bool ConfirmRide(RideDetails model)
         {
             bool result = false;
 

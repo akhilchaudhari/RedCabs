@@ -27,14 +27,21 @@ namespace UnitOfWorkApplication.API
         int cabCount = 0;
         decimal outBoundsFareFactor = 2;
 
-        public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude, List<Driver> drivers)
+        public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude,int driverId, List<Driver> drivers)
         {
             int counter = 0;
             List<Driver> currentDriverList;
             List<CabDuration> lstCabDurations = new List<CabDuration>();
             do
             {
-                currentDriverList = drivers.OrderBy(x => x.Car.CarType.Type).ThenBy(x => x.Id).Skip((counter) * 25).Take(25).ToList();
+                if (driverId ==0)
+                {
+                    currentDriverList = drivers.OrderBy(x => x.Car.CarType.Type).ThenBy(x => x.Id).Skip((counter) * 25).Take(25).ToList();
+                }
+                else
+                {
+                    currentDriverList = drivers.Where(x=>x.Id== driverId).ToList();
+                }
                 try
                 {
                     StringBuilder requestUrl = new StringBuilder();                    
@@ -190,12 +197,12 @@ namespace UnitOfWorkApplication.API
         private GoogleMapDirections GetDistanceDetails(LocationDetailsModel source, LocationDetailsModel destination)
         {
             StringBuilder requestUrl = new StringBuilder();
-            requestUrl.Append(DistanceMatrixBaseURI);
-            requestUrl.Append("origins=");
-            requestUrl.Append(source.Latitude.ToString() + "," + source.Longitude.ToString() + "|");
+            requestUrl.Append(DirectionsAPIBaseURI);
+            requestUrl.Append("origin=");
+            requestUrl.Append(source.Latitude.ToString() + "," + source.Longitude.ToString());
 
-            requestUrl.Append("&destinations=");
-            requestUrl.Append(destination.Latitude.ToString() + "," + destination.Longitude.ToString() + "|");
+            requestUrl.Append("&destination=");
+            requestUrl.Append(destination.Latitude.ToString() + "," + destination.Longitude.ToString());
 
             requestUrl.Append("&language=en");
 
@@ -225,7 +232,9 @@ namespace UnitOfWorkApplication.API
 
         public List<PointF> GetCurrentCityCoordinates(LocationDetailsModel source, out string cityName)
         {
-            var coordinateFiles = Directory.GetFiles(@"*.xml");
+            string binDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            binDirectory = binDirectory.Replace("file:\\", "") + "\\coordinates";
+            var coordinateFiles = Directory.GetFiles(binDirectory);
             cityName = String.Empty;
             XmlDocument xmlDoc = new XmlDocument();
             PointF point;
@@ -234,7 +243,7 @@ namespace UnitOfWorkApplication.API
             {
 
                 xmlDoc.Load(file);
-                cityName = file.Replace(".xml","");
+                cityName = file.Substring(file.LastIndexOf('\\')+1).Replace(".xml","");
                 coordinates = xmlDoc.SelectNodes(@"coordinates/latlng").Cast<XmlNode>().Select(x => new PointF(float.Parse(x.InnerText.Split(',')[0]), float.Parse(x.InnerText.Split(',')[1]))).ToList();
                 point = new PointF(float.Parse(source.Latitude.ToString()), float.Parse(source.Longitude.ToString()));
                 if (!IsPointInPolygon(coordinates, point))
@@ -254,12 +263,15 @@ namespace UnitOfWorkApplication.API
         private bool IsPointInPolygon(List<PointF> polygon, PointF point)
         {
             bool isInside = false;
-            for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
+            if (polygon != null)
             {
-                if (((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y)) &&
-                (point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X))
+                for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
                 {
-                    isInside = !isInside;
+                    if (((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y)) &&
+                    (point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X))
+                    {
+                        isInside = !isInside;
+                    }
                 }
             }
             return isInside;

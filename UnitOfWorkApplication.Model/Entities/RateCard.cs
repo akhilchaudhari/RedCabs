@@ -10,7 +10,7 @@ namespace UnitOfWorkApplication.Model.Entities
         public virtual CarType CarType { get; set; }
 
         [Required]
-        public int MaxDistanceValue { get; set; }
+        public double MaxDistanceValue { get; set; }
 
         [Required]
         [MaxLength(32)]
