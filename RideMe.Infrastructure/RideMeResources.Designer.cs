@@ -39,7 +39,7 @@ namespace RideMe.Infrastructure {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RedCabsWebAPI.RideMeResources", typeof(RideMeResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RideMe.Infrastructure.RideMeResources", typeof(RideMeResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -111,6 +111,15 @@ namespace RideMe.Infrastructure {
         public static string MinimumCabDuration {
             get {
                 return ResourceManager.GetString("MinimumCabDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 86400.
+        /// </summary>
+        public static string OTPExpirationDuration {
+            get {
+                return ResourceManager.GetString("OTPExpirationDuration", resourceCulture);
             }
         }
         

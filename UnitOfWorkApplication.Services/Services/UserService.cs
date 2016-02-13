@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnitOfWorkApplication.Model.Model;
 using UnitOfWorkApplication.API;
+using UnitOfWorkApplication.Model.Enum;
 
 namespace UnitOfWorkApplication.Services.Services
 {
@@ -17,60 +18,105 @@ namespace UnitOfWorkApplication.Services.Services
         IUnitOfWork _unitOfWork;
         IUserRepository _UserRepository;
         IUserCouponsRepository _userCouponRepository;
+        ILoggerService loggerService;
         DistanceMatrix distanceAPIService;
         IRateCardService rateCardService;
-        IUserCouponsService userCouponService;        
 
-        public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository, IRateCardRepository rateCardRepository, IUserCouponsRepository _userCouponRepository)
+        public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository, IRateCardRepository rateCardRepository, IUserCouponsRepository userCouponRepository, ILoggerService loggerService)
             : base(unitOfWork, UserRepository)
         {
             _unitOfWork = unitOfWork;
             _UserRepository = UserRepository;
             rateCardService = new RateCardService(unitOfWork, rateCardRepository, _userCouponRepository);
-            this._userCouponRepository = _userCouponRepository;
+            this._userCouponRepository = userCouponRepository;
+            this.loggerService = loggerService;
         }
-
-
         public User GetById(int Id)
         {
             return _UserRepository.GetById(Id);
         }
 
-        public List<string> CheckDuplicateEntryExists(string contact, string email)
+        public int CheckIfContactExists(string contact)
         {
-            List<string> duplicateEntities = new List<string>();
-
-            var userList = this._UserRepository.FindBy(x => x.ContactNo.Equals(contact, StringComparison.OrdinalIgnoreCase) || x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-            var user = userList.Where(x => x.ContactNo.Equals(contact)).FirstOrDefault();
-            if(user!=null)
+            DuplicateEntry result;
+            try
             {
-                duplicateEntities.Add("contact");
+                var userList = this._UserRepository.FindBy(x => x.Email.Equals(contact, StringComparison.OrdinalIgnoreCase));
+                if (userList.Any())
+                {
+                    result = DuplicateEntry.True;
+                }
+                else
+                {
+                    result = DuplicateEntry.False;
+                }
             }
-            user = userList.Where(x => x.Email.Equals(email)).FirstOrDefault();
-            if (user != null)
+            catch (Exception ex)
             {
-                duplicateEntities.Add("email");
-            }           
-            return duplicateEntities;
+                result = DuplicateEntry.Error;
+                loggerService.Log(new ExceptionLog()
+                {
+                    MethodName = "CheckIfContactExists",
+                    ClassName = this.GetType().Name,
+                    ErrorMessage = ex.Message,
+                    ExceptionType = ex.GetType().ToString(),
+                    IsServerException = true,
+                    ObjectDetails = Newtonsoft.Json.JsonConvert.SerializeObject("Email: " + contact),
+                    StackTrace = ex.StackTrace,
+                    Tag = "Check Duplicate Contact"
+                });
+            }
+            return result.GetHashCode();
+        }
+
+        public int CheckIfEmailExists(string email)
+        {
+            DuplicateEntry result;
+            try
+            {
+                var userList = this._UserRepository.FindBy(x=>x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                if (userList.Any())
+                {
+                    result = DuplicateEntry.True;
+                }
+                else
+                {
+                    result = DuplicateEntry.False;
+                }
+            }
+            catch (Exception ex)
+            {
+                result = DuplicateEntry.Error;
+                loggerService.Log(new ExceptionLog()
+                {
+                    MethodName = "CheckIfEmailExists",
+                    ClassName = this.GetType().Name,
+                    ErrorMessage = ex.Message,
+                    ExceptionType = ex.GetType().ToString(),
+                    IsServerException = true,
+                    ObjectDetails = Newtonsoft.Json.JsonConvert.SerializeObject("Email: " + email),
+                    StackTrace = ex.StackTrace,
+                    Tag = "Check Duplicate Email"
+                });
+            }
+            return result.GetHashCode();
         }
 
         public User AddUser(User user)
         {
-            user.Coupons = this.userCouponService.GetById(1);
+          //  user.Coupons = this._userCouponRepository.GetById(1);
             this._UserRepository.Add(user);
             return user;
         }
 
-        public UserDetails AuthenticateUser(List<KeyValuePair> model)
+        public UserDetails AuthenticateUser(string username, string password)
         {
             List<KeyValuePair> result = new List<KeyValuePair>();
             UserDetails userDetails = new UserDetails();
-            String username = model.Where(t => t.Key.Equals("Username")).FirstOrDefault().Value;
-            String password = model.Where(t => t.Key.Equals("Password")).FirstOrDefault().Value;
             User userModel = this._UserRepository.FindBy(x => x.IsActive == true
-                                                        || x.ContactNo.Equals(username)
-                                                        || x.Email.Equals(username)
-                                                        || x.Password.Equals(password)).FirstOrDefault();
+                                                        && ( x.ContactNo.Equals(username)
+                                                        || x.Email.Equals(username))
+                                                        && x.Password.Equals(password)).FirstOrDefault();
 
             if(userModel!=null)
             {
@@ -84,8 +130,7 @@ namespace UnitOfWorkApplication.Services.Services
                 userDetails.Name = userModel.Name;
                 userDetails.Password = userModel.Password;
 
-                userCouponService = new UserCouponsService(_unitOfWork, _userCouponRepository);
-                userDetails.Coupons = userCouponService.GetActiveCouponsForUser(userModel.Id);
+              //  userDetails.Coupons = _userCouponRepository.GetActiveCouponsForUser(userModel.Id);
             }                           
             
             return userDetails;

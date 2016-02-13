@@ -117,60 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CompanyName" xml:space="preserve">
-    <value>RideMe</value>
-    <comment>Name of the company</comment>
+  <data name="Target" xml:space="preserve">
+    <value>H4sIAAAAAAAEAN1cW2/jthJ+P0D/g6Cn9iC1cjm72BPYW6RO0hN0c8E6u6dvC1qiHWElSpWoNEHRX9aH/qTzF85QomTxpout2E6xwCIih98Mh0NyOBz6f3/+Nf7hKQysR5ykfkQm9tHo0LYwcSPPJ8uJndHF9+/sH95/84/xhRc+WZ9LuhNGBy1JOrEfKI1PHSd1H3CI0lHou0mURgs6cqPQQV7kHB8e/ts5OnIwQNiAZVnjjxmhfojzD/icRsTFMc1QcB15OEh5OdTMclTrBoU4jZGLJ/ZH7E3RPP0vnp/dXdnWWeAjEGKGg4VtIUIiiiiIePopxTOaRGQ5i6EABffPMQa6BQpSzEU/XZF37cXhMeuFs2pYQrlZSqOwJ+DRCVeLIzdfS7l2pTZQ3AUomD6zXufKm9hXHs6LPkYBKEBmeDoNEkY8sa8rFmdpfIPpqGw4KiAvE4D7LUq+juqIB1bndgeVGR2PDtm/A2uaBTRL8ITgjCYoOLDusnnguz/j5/voKyaTk6P54uTdm7fIO3n7L3zypt5T6CvQCQVQdJdEMU5ANryo+m9bjtjOkRtWzWptCq2ALcGMsK1r9PQBkyV9gLly/M62Lv0n7JUl3Lg+ER8mEDSiSQafN1kQoHmAq3qnkSf7v4Hr8Zu3g3C9QY/+Mh96iT9MnCS1rY84yGvTBz8uppcw3l842WUShexbtK+i9sssyhKXdSYyktyjZImpKN3YWRlvJ5NmUMObdYm6/6bNJFXNW0vKOrTOTChZbHs2lPK+LN/OFncWxzB4uWkxjTQZnLBPjaSGB5ZQvbKbo652Q6A/f+dl8G72cxPTYRZBiedFiPxggLW3AxfweBZ+EuJKsz9GYOmI9NcTSlNYerz/oPShQXT4cwDRZ9jNEpgRM4rC+MW53T1EBN9k4ZxNtO3xGmxo7n+LLpFLo+SCsFYb432I3K9RRi+Id44o/kTdEpB93vthd4BBxDlzXZyml2DMsJRF4NCXgFeEnhz3hmPL4q59n2mA/FDv/EgL+JeSdOUA6SkUJ8hApnOEmkT9EC190k3UktQsakHRKion6ysqA+smKac0C5oTtMpZUA3mWuYjNLxvmcPuv3O5mcNgWgtqapzBCol/wgQnsIx5d4hSnJDVCHRZN3bhoOTDx5i++N6Uc/qMgmxoVmvNhnwRGH425LD7PxtyMaH40feYV9LhxFUSA3wnev1hrn3OSZJt3V+vd3PbzLezBpimy1maRq6fzwJNrI1HSkT5wYez2sMmRW/k0At0DAzdZ1selEDfbNmobsk5DjDF1plbxCKnKHWRp6oROuT1EKzcUTWCrUIwonD/VHiCpeOENULsEJTCTPUJVaeFT1w/RkGrlqSWHbcw1veKh1xzjmNMGMNWTXRhro+4MAEqPtKgtGlo7NQsrtkQDV6raczbXNjVuCuBkK3YZIvvbLBL7r+9iGE2a2wLxtmski4CGKOHuzBQflbpagDywWXfDFQ6MRkMlLtUWzFQUWM7MFBRJa/OQIsjatfxl86r+2ae4kF5+9t6o7p2YJuCPvbMNAvfE9pQaIGT0jwz+sDK8BPVnMlAPH4sS7mHK1sGw5xhKkZqVm6u1v10mkFk22kCXNlXCyi/blSAlHnUQ7gyhNcoHXceesCW4bZGWL7kS7C1oVex69euNULz5axsk50OHVXPKmtQbLvTGaGGozEIec0SO95BKaZwrKqYLi5wHye41jE+GA0KanFYDUoqOzO4lkrTbNeSzg/r44ltpCXJazJoqezM4FriNtquJI0v0MMb2EhF4s490GQrAxzVJlPVjZ0iEYsXjB1Dxtb4GsWxT5a1DC5eYs2K9K3p97P+yU1hgeG4qSbHqZK24kSjBC2xVAusQdJLP0npOaJojlh4Z+qFCll9SzWs+iWn+q6pjl25/JfU7G/eQsgNEHZX1evgzS+hTyFzXfJ4uWbE9c0tlkOHApRoQvTTKMhCYvakzK2Li7p6+6JERRg7kvyKp6QoSvFnRa13GhN1Gmw+PpWzsv4YmSFMmi49zLquTV6nGaUMQtVRTIGpnY2ZyWvpOk6yL9h/mFoRXmY25bku9eZ5Qff2PG+ljsCLemLUUh8UsFpdj54J2SlCF4Wa7ohSCkodUqrqIWU90UQQsl6xFp5Bo3qK7hzU1JI6ulrbHVmTZFKH1lSvga2RWa7rjqrJQ6kDa6q7Y6+SUuT1d4/3O+MJZ50Nrzj/brbjGTBeZjEdZsOs3e7XgWrFPbH4/b0Cxsv30pCMh8B1DKmIeGxmSAYM83ojXImLy03jPb4ZU7jnFpb0pnt+M14/c31Ro1COfzJJxb06BkrHvTE/erW/4lHOYgWJbZVqhO38OaU4HDGC0ezXYBr4mC3eJcE1Iv4Cp7TI7bCPD4+OpddA+/Myx0lTL9AcXU3Pc8Qx20KaFnlEifuAEjVpYoPXKytQJTB9RTz8NLF/z1ud5jEO9ldefGBdpZ+I/2sGFfdJhq0/1CTQYbL5m09le/r2ortWr375UjQ9sG4TmDGn1qGky3VGWHyR0UuaoukG0qz9TuP1TqjaOwg9ZttsUCGFZw5aUGmOrf+qYe7TQV40lFJ+G6Kn7/qKpn21sBGi5mXCUHiDqND08mAdLOOrAw8+af7qoF9n9a8Q1hHN+ALBJ/3B5PcH3Ve2suUOdy/NCWsbq1yu59b87Y2SOXe93Slp3htNdDWVuwfcBunaa1jGK8t0Hm7DVROZB8PepWm/ePbyviQsr3JKdpunvM3U5Iarqb9VRvIe5NBpkoN2n3e8bVszRYX3PHmzX3bxnhkbTxnbfQ7xto3NFDnec2PrlSm8Z7a2q/1zx5bWeQvded6vmstkuN3RhZfbEnyLWDyc8OcRGEHhURbPMfUZZU3ZsC0MVyRmpuZUNpmxMnEUvgpFM9t+feUbfmNnOU0zW0MCaBNvvv438uY0zbwNaZW7SE3WJjbq0sVb1rGmRKzXlIos9KQl873NZ228qn9NmceDKEWYPYZr59eTaDyISoacOj0Si9UbZNg7a78WCft36i9XEOy3Iwl2hV2zorkii6jcvCWJShIpQnONKfJgSz1LqL9ALoVqFmPO35PncTt20zHH3hW5zWicUegyDueBEPBiTkAT/zx7WpR5fBvnP40yRBdATJ/F5m/Jj5kfeJXcl5qYkAGCeRc8osvGkrLI7vK5QrqJSEcgrr7KKbrHYRwAWHpLZugRryMbmN8HvETu8yoCaAJpHwhR7eNzHy0TFKYcY9UePsGGvfDp/f8BgByMGzRVAAA=</value>
   </data>
-  <data name="CompanyRegistrationEmailAddress" xml:space="preserve">
-    <value>akhil.chaudhari91@gmail.com</value>
-    <comment>Email address from which the registration mail would be sent</comment>
-  </data>
-  <data name="CompanyRegistrationEmailPassword" xml:space="preserve">
-    <value>Akhil@1991</value>
-    <comment>Password of the email address used to send the registration mails</comment>
-  </data>
-  <data name="EmailAddressPort" xml:space="preserve">
-    <value>587</value>
-    <comment>Port number for outgoing mail</comment>
-  </data>
-  <data name="LowestCabRates" xml:space="preserve">
-    <value>9</value>
-    <comment>Lowest rate per km for a cab</comment>
-  </data>
-  <data name="MinimumCabDuration" xml:space="preserve">
-    <value>2</value>
-    <comment>Minimum cab duration if the cab is at user location</comment>
-  </data>
-  <data name="OTPExpirationDuration" xml:space="preserve">
-    <value>86400</value>
-    <comment>OTP Validaity (in seconds)</comment>
-  </data>
-  <data name="Registration_Email_Body" xml:space="preserve">
-    <value>Hello {0},
-
-Welcome to {1} cabs
-
-With your account, you can now get cabs at your doorstep at ₹{2}/km just using the {3} app.
-
-For your records, you are registered with us as:
-
-Username: {4}
-Password: {5}
-
-Please keep this information secure and do not share the password with anyone.
-
-Wishing you a very happy journey with {6} cabs.
-
-Thanks and Regards,
-{7} cabs</value>
-    <comment>Email body</comment>
-  </data>
-  <data name="Registration_Email_Subject" xml:space="preserve">
-    <value>Welcome to {0} cabs</value>
-    <comment>Email subject</comment>
-  </data>
-  <data name="SmtpClient" xml:space="preserve">
-    <value>smtp.gmail.com</value>
-    <comment>Smtp client name</comment>
+  <data name="DefaultSchema" xml:space="preserve">
+    <value>dbo</value>
   </data>
 </root>

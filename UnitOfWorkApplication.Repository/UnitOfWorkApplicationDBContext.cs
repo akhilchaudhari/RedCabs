@@ -6,9 +6,8 @@ namespace UnitOfWorkApplication.Model.Repository
     public class UnitOfWorkApplicationDBContext : DbContext
     {
         public UnitOfWorkApplicationDBContext()
-            : base("Name=DBConnectionString")
+            : base("RideMe")
         {
-            Database.SetInitializer<UnitOfWorkApplicationDBContext>(null);
         }
 
         public DbSet<Car> Car { get; set; }
@@ -36,6 +35,8 @@ namespace UnitOfWorkApplication.Model.Repository
         public DbSet<UserLocationDetails> UserLocationDetails { get; set; }
 
         public DbSet<RateCard> RateCard { get; set; }
+
+        public DbSet<ExceptionLog> ExceptionLog { get; set; }
 
     }
 }

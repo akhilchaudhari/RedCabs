@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="DistanceMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\TimeSensitivePassCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -72,6 +73,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RideMe.Infrastructure\RideMe.Infrastructure.csproj">
+      <Project>{a171959c-89c1-4c9c-b9d7-ef65b82765b2}</Project>
+      <Name>RideMe.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnitOfWorkApplication.Model\UnitOfWorkApplication.Model.csproj">
       <Project>{50bfd953-616b-4216-872c-1fe087ca4808}</Project>
       <Name>UnitOfWorkApplication.Model</Name>

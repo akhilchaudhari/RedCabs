@@ -13,12 +13,13 @@ namespace UnitOfWorkApplication.Services.Interfaces
     {
         User GetById(int Id);
 
-        List<string> CheckDuplicateEntryExists(string contact, string email);
+        int CheckIfContactExists(string contact);
+
+        int CheckIfEmailExists(string email);
 
         User AddUser(User user);
 
-
-        UserDetails AuthenticateUser(List<KeyValuePair> model);
+        UserDetails AuthenticateUser(string username, string password);
 
         RideNowModel GetFareEstimate(RideNowModel model);
 
