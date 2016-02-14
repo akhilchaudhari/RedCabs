@@ -83,15 +83,19 @@ namespace RedCabsWebAPI.Controllers
         }
 
         [HttpGet]
-        public int CheckIfContactExists(string contactNo)
+        public int CheckIfContactExists(string json)
         {
-            return this.userService.CheckIfContactExists(contactNo);
+            List<KeyValuePair> model = new List<KeyValuePair>();
+            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
+            return this.userService.CheckIfContactExists(model.First().Value);
         }
 
         [HttpGet]
-        public int CheckIfEmailExists(string email)
+        public int CheckIfEmailExists(string json)
         {
-            return this.userService.CheckIfEmailExists(email);
+            List<KeyValuePair> model = new List<KeyValuePair>();
+            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
+            return this.userService.CheckIfEmailExists(model.First().Value);
         }
 
         [TwoFactorAuthorize]

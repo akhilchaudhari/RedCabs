@@ -36,7 +36,7 @@ namespace UnitOfWorkApplication.Services.Services
             return _UserRepository.GetById(Id);
         }
 
-        public int CheckIfContactExists(string contact)
+        public DuplicateEntry CheckIfContactExists(string contact)
         {
             DuplicateEntry result;
             try
@@ -66,10 +66,10 @@ namespace UnitOfWorkApplication.Services.Services
                     Tag = "Check Duplicate Contact"
                 });
             }
-            return result.GetHashCode();
+            return result;
         }
 
-        public int CheckIfEmailExists(string email)
+        public DuplicateEntry CheckIfEmailExists(string email)
         {
             DuplicateEntry result;
             try
@@ -99,7 +99,7 @@ namespace UnitOfWorkApplication.Services.Services
                     Tag = "Check Duplicate Email"
                 });
             }
-            return result.GetHashCode();
+            return result;
         }
 
         public User AddUser(User user)

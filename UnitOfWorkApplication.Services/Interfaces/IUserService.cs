@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnitOfWorkApplication.Model.Model;
+using UnitOfWorkApplication.Model.Enum;
 
 namespace UnitOfWorkApplication.Services.Interfaces
 {
@@ -13,9 +14,9 @@ namespace UnitOfWorkApplication.Services.Interfaces
     {
         User GetById(int Id);
 
-        int CheckIfContactExists(string contact);
+        DuplicateEntry CheckIfContactExists(string contact);
 
-        int CheckIfEmailExists(string email);
+        DuplicateEntry CheckIfEmailExists(string email);
 
         User AddUser(User user);
 
