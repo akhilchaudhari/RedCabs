@@ -59,6 +59,18 @@ namespace UnitOfWorkApplication.API.Services
             int hotp = truncatedHash % 1000000;
             return hotp.ToString().PadLeft(6, '0');
         }
+
+        public static int GetOTP(string base32EncodedSecret)
+        {
+            DateTime epochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
+
+            long counter = (long)Math.Floor((DateTime.UtcNow - epochStart).TotalSeconds / 30);
+
+            int otp = Int32.Parse(GetHotp(base32EncodedSecret, counter));
+
+            return otp;
+
+        }
     }
 
     public static class StringHelper

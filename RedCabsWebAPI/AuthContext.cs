@@ -6,7 +6,7 @@ namespace RedCabsWebAPI
     public class AuthContext : IdentityDbContext<ApplicationUser>
     {
         public AuthContext()
-            : base("RideMe")
+            : base("DBConnectionString")
         {
 
         }

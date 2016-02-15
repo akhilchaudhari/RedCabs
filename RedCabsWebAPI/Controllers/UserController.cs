@@ -1,17 +1,23 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RedCabsWebAPI.Filters;
 using RideMe.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using UnitOfWorkApplication.API.Services;
 using UnitOfWorkApplication.Model;
 using UnitOfWorkApplication.Model.Entities;
+using UnitOfWorkApplication.Model.Enum;
 using UnitOfWorkApplication.Model.Model;
 using UnitOfWorkApplication.Services.Interfaces;
 using UnitOfWorkApplication.Services.Services;
@@ -20,7 +26,9 @@ namespace RedCabsWebAPI.Controllers
 {
     public class UserController : ApiController
     {
-        private AuthRepository _repo = null;     
+        private AuthRepository _repo = null;
+        //private const string BaseURL = "http://localhost:6015";
+        private const string BaseURL = "https://ridemecabs.azurewebsites.net";
 
         IUserService userService;
         ICommunicationService communicationService;
@@ -34,9 +42,9 @@ namespace RedCabsWebAPI.Controllers
             _repo = new AuthRepository();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public List<User> Get()
+        public IEnumerable<User> Get()
         {
             var users = this.userService.GetAll().ToList();
 
@@ -52,18 +60,29 @@ namespace RedCabsWebAPI.Controllers
             return user;
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Post(User user)
         {
             try
             {
-                userService = null;              
                 this.userService.AddUser(user);
                 var abc = await _repo.RegisterUser(user);
                 communicationService.SendMail(user);
+                
+                
 
                 ApplicationUser userPSK = await _repo.FindUser(user.Email, user.Password);
 
-                return Ok(new { PSK = userPSK.PSK });
+                var accessToken = GetToken(user.Email, user.Password);
+
+                int otp = TimeSensitivePassCode.GetOTP(userPSK.PSK);
+
+                if(string.IsNullOrEmpty(accessToken) || user.Id==0)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(new { AccessToken = accessToken, Id = user.Id});
             }
             catch (Exception ex)
             {
@@ -83,7 +102,7 @@ namespace RedCabsWebAPI.Controllers
         }
 
         [HttpGet]
-        public int CheckIfContactExists(string json)
+        public DuplicateEntry CheckIfContactExists(string json)
         {
             List<KeyValuePair> model = new List<KeyValuePair>();
             model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
@@ -91,7 +110,7 @@ namespace RedCabsWebAPI.Controllers
         }
 
         [HttpGet]
-        public int CheckIfEmailExists(string json)
+        public DuplicateEntry CheckIfEmailExists(string json)
         {
             List<KeyValuePair> model = new List<KeyValuePair>();
             model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
@@ -103,7 +122,7 @@ namespace RedCabsWebAPI.Controllers
         public IHttpActionResult CheckVerificationCode()
         {
             return Ok();
-        }
+        }       
 
         protected override void Dispose(bool disposing)
         {
@@ -114,6 +133,65 @@ namespace RedCabsWebAPI.Controllers
 
             base.Dispose(disposing);
         }
+
+        [HttpGet]
+        public string GetToken(string username, string password)
+        {            
+            string accessToken=String.Empty;
+            var request = WebRequest.Create("https://ridemecabs.azurewebsites.net"+"/token") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.CookieContainer = new CookieContainer();
+            var authCredentials = "grant_type=password&userName=" + username + "&password=" + password;
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(authCredentials);
+            request.ContentLength = bytes.Length;
+            using (var requestStream = request.GetRequestStream())
+            {
+                requestStream.Write(bytes, 0, bytes.Length);
+            }
+
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                Stream dataStream = response.GetResponseStream();
+
+                StreamReader reader = new StreamReader(dataStream);
+
+                var responseFromServer = reader.ReadToEnd();
+                accessToken = JObject.Parse(responseFromServer).SelectToken("$.access_token").ToString();
+                var authCookie = response.Cookies["access_token"];
+            }
+            return accessToken;
+        }
+
+        [HttpGet]
+        public string GetOTP(string acessToken)
+        {
+            string accessToken = String.Empty;
+            var request = WebRequest.Create(BaseURL + "/api/User/") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.CookieContainer = new CookieContainer();
+            var authCredentials = String.Empty;
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(authCredentials);
+            request.ContentLength = bytes.Length;
+            using (var requestStream = request.GetRequestStream())
+            {
+                requestStream.Write(bytes, 0, bytes.Length);
+            }
+
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                Stream dataStream = response.GetResponseStream();
+
+                StreamReader reader = new StreamReader(dataStream);
+
+                var responseFromServer = reader.ReadToEnd();
+                accessToken = JObject.Parse(responseFromServer).SelectToken("$.access_token").ToString();
+                var authCookie = response.Cookies["access_token"];
+            }
+            return accessToken;
+        }
+
         //[HttpGet]
         //public UserDetails AuthenticateUser(string json)
         //{

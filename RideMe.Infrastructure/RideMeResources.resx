@@ -173,4 +173,8 @@ Thanks and Regards,
     <value>smtp.gmail.com</value>
     <comment>Smtp client name</comment>
   </data>
+  <data name="TokenRequestURL" xml:space="preserve">
+    <value>https://ridmecabs.azurewebsites.net/token</value>
+    <comment>Gets the token for the user</comment>
+  </data>
 </root>

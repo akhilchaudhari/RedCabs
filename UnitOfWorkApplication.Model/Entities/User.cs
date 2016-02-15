@@ -25,13 +25,7 @@ namespace UnitOfWorkApplication.Model.Entities
         
         public string Password { get; set; }
 
-        public virtual List<UserCoupons> Coupons { get; set; }
-
-        [NotMapped]
-        public bool IsDuplicateContact { get; set; }
-
-        [NotMapped]
-        public bool IsDuplicateEmail { get; set; }
+        public virtual List<UserCoupons> Coupons { get; set; }     
     }
 }
 

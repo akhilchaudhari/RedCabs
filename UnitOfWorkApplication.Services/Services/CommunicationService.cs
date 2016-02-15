@@ -45,7 +45,7 @@ namespace UnitOfWorkApplication.Services.Services
                 SmtpServer.Credentials = new System.Net.NetworkCredential(RideMeResources.CompanyRegistrationEmailAddress, RideMeResources.CompanyRegistrationEmailPassword);
                 SmtpServer.EnableSsl = true;
 
-                SmtpServer.Send(mail);
+                SmtpServer.SendMailAsync(mail);
             }
             catch(Exception ex)
             {  

@@ -41,7 +41,7 @@ namespace UnitOfWorkApplication.Services.Services
             DuplicateEntry result;
             try
             {
-                var userList = this._UserRepository.FindBy(x => x.Email.Equals(contact, StringComparison.OrdinalIgnoreCase));
+                var userList = this._UserRepository.FindBy(x => x.ContactNo.Equals(contact, StringComparison.OrdinalIgnoreCase));
                 if (userList.Any())
                 {
                     result = DuplicateEntry.True;
@@ -106,6 +106,7 @@ namespace UnitOfWorkApplication.Services.Services
         {
           //  user.Coupons = this._userCouponRepository.GetById(1);
             this._UserRepository.Add(user);
+            this._UserRepository.Save();
             return user;
         }
 

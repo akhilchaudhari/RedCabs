@@ -6,7 +6,7 @@ namespace UnitOfWorkApplication.Model.Repository
     public class UnitOfWorkApplicationDBContext : DbContext
     {
         public UnitOfWorkApplicationDBContext()
-            : base("RideMe")
+            : base("DBConnectionString")
         {
         }
 

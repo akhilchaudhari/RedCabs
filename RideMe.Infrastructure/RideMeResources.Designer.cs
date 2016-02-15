@@ -165,5 +165,14 @@ namespace RideMe.Infrastructure {
                 return ResourceManager.GetString("SmtpClient", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://ridmecabs.azurewebsites.net/token.
+        /// </summary>
+        public static string TokenRequestURL {
+            get {
+                return ResourceManager.GetString("TokenRequestURL", resourceCulture);
+            }
+        }
     }
 }
