@@ -26,16 +26,19 @@ namespace UnitOfWorkApplication.Model.Model
         /// </summary>
         public List<string> Drivers { get; set; }
 
+        public int DriverId { get; set; }
+
         public CabDuration()
         {
         }    
 
-        public CabDuration(string carType, string durationText, int durationValue, List<string> drivers)
+        public CabDuration(string carType, string durationText, int durationValue, List<string> drivers,int driverId)
         {
             this.CarType = carType;
             this.DurationText = durationText;
             this.DurationValue = durationValue;
             this.Drivers =drivers;
+            this.DriverId = driverId;
         }
     }
 }

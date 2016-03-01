@@ -59,6 +59,7 @@
     <Compile Include="EmailModel.cs" />
     <Compile Include="Entities\ExceptionLog.cs" />
     <Compile Include="Enum\DuplicateEntry.cs" />
+    <Compile Include="Enum\RideStatus.cs" />
     <Compile Include="Model\CabDuration.cs" />
     <Compile Include="Entities\RateCard.cs" />
     <Compile Include="Model\DistanceBreakup.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Entities\UserCoupons.cs" />
     <Compile Include="Entities\UserAddress.cs" />
     <Compile Include="Entities\RideDetails.cs" />
-    <Compile Include="Entities\RideStatus.cs" />
     <Compile Include="Entities\DriverLocationDetails.cs" />
     <Compile Include="Entities\Driver.cs" />
     <Compile Include="Entities\Coupon.cs" />

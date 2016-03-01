@@ -14,15 +14,13 @@ namespace UnitOfWorkApplication.Model.Entities
 
         public virtual User User { get; set; }
 
-        public virtual RideStatus RideStatus { get; set; }
+        public int RideStatus { get; set; }
 
-        public virtual Coupon SelectedCoupon { get; set;}
+        public virtual Coupon UserCoupon { get; set;}
 
         public string SourceLocation{ get; set; }
 
         public string SourceAddress { get; set; }
-
-        public int Driver_Id { get; set; }
 
         public string DestinationLocation { get; set; }
 

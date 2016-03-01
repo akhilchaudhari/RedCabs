@@ -17,6 +17,8 @@ namespace RedCabsWebAPI.Controllers
         {
             this.carTypeService = carTypeService;            
         }
+
+        [Authorize]
         public List<CarType> Get()
         {
             var carTypes = this.carTypeService.GetAll().ToList();
@@ -24,6 +26,7 @@ namespace RedCabsWebAPI.Controllers
             return carTypes;
         }
 
+        [Authorize]
         public CarType Get(int id)
         {
             var carType = this.carTypeService.GetById(id);

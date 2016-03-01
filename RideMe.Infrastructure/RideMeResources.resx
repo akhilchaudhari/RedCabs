@@ -122,15 +122,15 @@
     <comment>Name of the company</comment>
   </data>
   <data name="CompanyRegistrationEmailAddress" xml:space="preserve">
-    <value>akhil.chaudhari91@gmail.com</value>
+    <value>support@glareindia.net</value>
     <comment>Email address from which the registration mail would be sent</comment>
   </data>
   <data name="CompanyRegistrationEmailPassword" xml:space="preserve">
-    <value>Akhil@1991</value>
+    <value>glareIndia@2014</value>
     <comment>Password of the email address used to send the registration mails</comment>
   </data>
   <data name="EmailAddressPort" xml:space="preserve">
-    <value>587</value>
+    <value>25</value>
     <comment>Port number for outgoing mail</comment>
   </data>
   <data name="LowestCabRates" xml:space="preserve">
@@ -141,9 +141,18 @@
     <value>2</value>
     <comment>Minimum cab duration if the cab is at user location</comment>
   </data>
+  <data name="OTPEmailSubject" xml:space="preserve">
+    <value>{0} cabs - One Time Password</value>
+    <comment>Subject for the OTP email</comment>
+  </data>
   <data name="OTPExpirationDuration" xml:space="preserve">
     <value>86400</value>
     <comment>OTP Validaity (in seconds)</comment>
+  </data>
+  <data name="OTP_Email_Body" xml:space="preserve">
+    <value>Hello {0},
+
+Thank you for using {1} cabs. Your One Time Password for confirmation is {2}</value>
   </data>
   <data name="Registration_Email_Body" xml:space="preserve">
     <value>Hello {0},
@@ -155,14 +164,13 @@ With your account, you can now get cabs at your doorstep at ₹{2}/km just using
 For your records, you are registered with us as:
 
 Username: {4}
-Password: {5}
 
 Please keep this information secure and do not share the password with anyone.
 
-Wishing you a very happy journey with {6} cabs.
+Wishing you a very happy journey with {5} cabs.
 
 Thanks and Regards,
-{7} cabs</value>
+{6} cabs</value>
     <comment>Email body</comment>
   </data>
   <data name="Registration_Email_Subject" xml:space="preserve">
@@ -170,7 +178,7 @@ Thanks and Regards,
     <comment>Email subject</comment>
   </data>
   <data name="SmtpClient" xml:space="preserve">
-    <value>smtp.gmail.com</value>
+    <value>mail.glareindia.net</value>
     <comment>Smtp client name</comment>
   </data>
   <data name="TokenRequestURL" xml:space="preserve">

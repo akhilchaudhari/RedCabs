@@ -39,6 +39,10 @@ namespace UnitOfWorkApplication.Model.Entities
         {
             get
             {
+                if(string.IsNullOrEmpty(this.LastLocation))
+                {
+                    return null;
+                }
                 return this.LastLocation.Split(',')[0];
             }
         }
@@ -47,8 +51,12 @@ namespace UnitOfWorkApplication.Model.Entities
         {
             get
             {
+                if (string.IsNullOrEmpty(this.LastLocation))
+                {
+                    return null;
+                }
                 return this.LastLocation.Split(',')[1];
             }
-        }
+        }       
     }
 }

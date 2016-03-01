@@ -27,27 +27,22 @@ namespace UnitOfWorkApplication.API
         int cabCount = 0;
         decimal outBoundsFareFactor = 2;
 
-        public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude,int driverId, List<Driver> drivers)
+        public IEnumerable<CabDuration> GetCabDurations(string latitude, string longitude, int driverId, List<Driver> drivers, string cabType = "")
         {
             int counter = 0;
             List<Driver> currentDriverList;
             List<CabDuration> lstCabDurations = new List<CabDuration>();
+            drivers = drivers.Where(x => (String.IsNullOrEmpty(cabType) || x.Car.CarType.Type == cabType) && (driverId == 0 || x.Id == driverId)).ToList();
             do
             {
-                if (driverId ==0)
-                {
-                    currentDriverList = drivers.OrderBy(x => x.Car.CarType.Type).ThenBy(x => x.Id).Skip((counter) * 25).Take(25).ToList();
-                }
-                else
-                {
-                    currentDriverList = drivers.Where(x=>x.Id== driverId).ToList();
-                }
+
+                currentDriverList = drivers.OrderBy(x => x.Car.CarType.Type).ThenBy(x => x.Id).Skip((counter) * 25).Take(25).ToList();
                 try
                 {
-                    StringBuilder requestUrl = new StringBuilder();                    
+                    StringBuilder requestUrl = new StringBuilder();
                     requestUrl.Append(DistanceMatrixBaseURI);
                     requestUrl.Append("origins=");
-                    requestUrl.Append(latitude.ToString() + "," +  longitude.ToString() + "|");
+                    requestUrl.Append(latitude.ToString() + "," + longitude.ToString() + "|");
 
                     requestUrl.Append("&destinations=");
                     currentDriverList.ForEach(x => requestUrl.Append(x.Latitude.ToString() + "," + x.Longitude.ToString() + "|"));
@@ -60,54 +55,62 @@ namespace UnitOfWorkApplication.API
 
                     requestUrl.Append("&units=metric");
 
-                    requestUrl.Append("&key=" + API_KEY);                   
+                    requestUrl.Append("&key=" + API_KEY);
 
                     WebRequest webRequest = WebRequest.Create(requestUrl.ToString());
 
                     WebResponse webResponse = webRequest.GetResponse();
 
                     Stream dataStream = webResponse.GetResponseStream();
-                    
+
                     StreamReader reader = new StreamReader(dataStream);
-                    
+
                     string responseFromServer = reader.ReadToEnd();
 
                     var responseList = JsonConvert.DeserializeObject<DistanceMatrixResponse>(responseFromServer);
 
                     counter++;
-                   
+
                     foreach (var carType in currentDriverList.Select(x => x.Car.CarType.Type).Distinct())
                     {
-                        var carTypeDetails = currentDriverList.Where(x => x.Car.CarType.Type.Equals(carType));                        
-                        var durationValue = (Int32.Parse(responseList.Rows[0].Elements.Skip(cabCount).Take(carTypeDetails.Count()).
+                        var carTypeDetails = currentDriverList.Where(x => x.Car.CarType.Type.Equals(carType));
+                        var durationValue = (Double.Parse(responseList.Rows[0].Elements.Skip(cabCount).Take(carTypeDetails.Count()).
                                                                                     Where(x => x.Status == Google.Maps.ServiceResponseStatus.Ok).ToArray().
-                                                                                    GroupBy(x => x.duration.Value).Min(x => x.Key)) / 60);
-                        durationValue = durationValue == MinimumCabDuraiton ? 2 : durationValue;
+                                                                                    GroupBy(x => x.duration.Value).Min(x => x.Key)));
+
+                        int index = responseList.Rows[0].Elements.ToList().FindIndex(x => x.duration.Value == (durationValue).ToString());
+
+                        durationValue = durationValue / 60;
+
+                        durationValue = durationValue <= MinimumCabDuraiton ? MinimumCabDuraiton : durationValue;
+
 
                         lstCabDurations.Add(new CabDuration
                                 (carType,
-                                (durationValue==0?MinimumCabDuraiton:durationValue) + " mins",
-                                (durationValue == 0 ? MinimumCabDuraiton : durationValue),
-                                carTypeDetails.Select(x=>x.LastLocation).ToList()
+                                (int)(durationValue == 0 ? MinimumCabDuraiton : durationValue) + " mins",
+                                (int)durationValue,
+                                carTypeDetails.Select(x => x.LastLocation).ToList(),
+                                currentDriverList[index].Id
                                 ));
 
                         cabCount = cabCount + carTypeDetails.Count();
-                    }                    
+                    }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
             } while (drivers.Except(currentDriverList).Take(25).Count() > 0);
 
             return lstCabDurations.
-                    GroupBy(x=>x.CarType).
-                    Select(x=> new CabDuration()
+                    GroupBy(x => x.CarType).
+                    Select(x => new CabDuration()
                     {
-                        CarType =x.Key,
-                        Drivers =x.Select(t=>t.Drivers).FirstOrDefault(),
-                        DurationText =x.Select(t => t.DurationText).FirstOrDefault(),
-                        DurationValue =x.Select(t => t.DurationValue).FirstOrDefault()
+                        CarType = x.Key,
+                        Drivers = x.Select(t => t.Drivers).FirstOrDefault(),
+                        DurationText = x.Select(t => t.DurationText).FirstOrDefault(),
+                        DurationValue = x.Select(t => t.DurationValue).FirstOrDefault(),
+                        DriverId = x.Select(t => t.DriverId).FirstOrDefault()
                     });
 
 
@@ -117,33 +120,33 @@ namespace UnitOfWorkApplication.API
         public RideNowModel GetDistanceDetails(RideNowModel model)
         {
             string cityName = String.Empty;
-            var cityCoordiantes = GetCurrentCityCoordinates(model.SourceLocation,out cityName);
+            var cityCoordiantes = GetCurrentCityCoordinates(model.SourceLocation, out cityName);
             model.RideEstimate.SourceCityName = cityName;
             PointF sourceLocation;
             PointF destinationLocation;
             bool isSourceInsideBounds = false;
             bool isDestinationInsideBounds = false;
-            decimal currentStepDistance =0;
+            decimal currentStepDistance = 0;
             var responseList = GetDistanceDetails(model.SourceLocation, model.DestinationLocation);
             model.DistanceBreakup = new List<DistanceBreakup>();
 
             int counter = 1;
 
-            foreach(var step in responseList.routes[0].legs[0].steps)
-            {               
-                if(counter==1)
+            foreach (var step in responseList.routes[0].legs[0].steps)
+            {
+                if (counter == 1)
                 {
-                     sourceLocation= new PointF(float.Parse(model.SourceLocation.Latitude.ToString()), float.Parse(model.SourceLocation.Longitude.ToString()));
+                    sourceLocation = new PointF(float.Parse(model.SourceLocation.Latitude.ToString()), float.Parse(model.SourceLocation.Longitude.ToString()));
                 }
                 else
                 {
-                     sourceLocation= new PointF(float.Parse(responseList.routes[0].legs[0].steps[counter-1].end_location.lat.ToString()), float.Parse(responseList.routes[0].legs[0].steps[counter - 1].end_location.lng.ToString()));
+                    sourceLocation = new PointF(float.Parse(responseList.routes[0].legs[0].steps[counter - 1].end_location.lat.ToString()), float.Parse(responseList.routes[0].legs[0].steps[counter - 1].end_location.lng.ToString()));
                 }
                 destinationLocation = new PointF(float.Parse(step.end_location.lat.ToString()), float.Parse(step.end_location.lng.ToString()));
                 isSourceInsideBounds = IsPointInPolygon(cityCoordiantes, sourceLocation);
-                isDestinationInsideBounds= IsPointInPolygon(cityCoordiantes, destinationLocation);
+                isDestinationInsideBounds = IsPointInPolygon(cityCoordiantes, destinationLocation);
 
-                if(isSourceInsideBounds && isDestinationInsideBounds)
+                if (isSourceInsideBounds && isDestinationInsideBounds)
                 {
                     model.DistanceBreakup.Add(new DistanceBreakup() { Position = counter, Value = step.distance.value / 1000, IsInBound = true });
                 }
@@ -156,17 +159,17 @@ namespace UnitOfWorkApplication.API
                     model.DistanceBreakup.Add(new DistanceBreakup() { Position = counter, Value = step.distance.value / 1000, IsInBound = false });
                 }
                 counter++;
-            }            
-            model.RideEstimate.TotalDistance = responseList.routes[0].legs[0].distance.value/1000;
+            }
+            model.RideEstimate.TotalDistance = responseList.routes[0].legs[0].distance.value / 1000;
 
-            model.RideEstimate.Duration = responseList.routes[0].legs[0].duration.text;            
+            model.RideEstimate.Duration = responseList.routes[0].legs[0].duration.text;
 
             return model;
 
         }
 
 
-        private double GetDistanceOffline(double lat1, double lon1, double lat2, double lon2, char unit='K')
+        private double GetDistanceOffline(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
         {
             double theta = lon1 - lon2;
             double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
@@ -238,12 +241,12 @@ namespace UnitOfWorkApplication.API
             cityName = String.Empty;
             XmlDocument xmlDoc = new XmlDocument();
             PointF point;
-            List<PointF> coordinates=new List<PointF>();
+            List<PointF> coordinates = new List<PointF>();
             foreach (var file in coordinateFiles)
             {
 
                 xmlDoc.Load(file);
-                cityName = file.Substring(file.LastIndexOf('\\')+1).Replace(".xml","");
+                cityName = file.Substring(file.LastIndexOf('\\') + 1).Replace(".xml", "");
                 coordinates = xmlDoc.SelectNodes(@"coordinates/latlng").Cast<XmlNode>().Select(x => new PointF(float.Parse(x.InnerText.Split(',')[0]), float.Parse(x.InnerText.Split(',')[1]))).ToList();
                 point = new PointF(float.Parse(source.Latitude.ToString()), float.Parse(source.Longitude.ToString()));
                 if (!IsPointInPolygon(coordinates, point))

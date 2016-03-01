@@ -11,6 +11,6 @@ namespace UnitOfWorkApplication.Services.Interfaces
 
     public interface IRideDetailsService : IEntityService<RideDetails>
     {
-        Driver ConfirmRide(RideNowModel model);
+        RideNowModel ConfirmRide(RideNowModel model);
     }
 }

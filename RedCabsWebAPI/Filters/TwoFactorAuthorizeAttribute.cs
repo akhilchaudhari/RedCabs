@@ -22,7 +22,7 @@ namespace RedCabsWebAPI.Filters
             bool hasValidTotp = OtpHelper.HasValidTotp(actionContext.Request, preSharedKey);
 
             if (hasValidTotp)
-            {
+            {                
                 return Task.FromResult<object>(null);
             }
             else

@@ -42,7 +42,7 @@ namespace RedCabsWebAPI.Controllers
             _repo = new AuthRepository();
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IEnumerable<User> Get()
         {
@@ -67,9 +67,7 @@ namespace RedCabsWebAPI.Controllers
             {
                 this.userService.AddUser(user);
                 var abc = await _repo.RegisterUser(user);
-                communicationService.SendMail(user);
-                
-                
+                communicationService.SendMail(user);                                
 
                 ApplicationUser userPSK = await _repo.FindUser(user.Email, user.Password);
 
@@ -77,7 +75,12 @@ namespace RedCabsWebAPI.Controllers
 
                 int otp = TimeSensitivePassCode.GetOTP(userPSK.PSK);
 
-                if(string.IsNullOrEmpty(accessToken) || user.Id==0)
+                if (otp.ToString().Length == 6)
+                {
+                    communicationService.SendMail(user.Email, user.Name, otp.ToString());
+                }
+
+                if (string.IsNullOrEmpty(accessToken) || user.Id==0)
                 {
                     return BadRequest();
                 }
@@ -119,9 +122,31 @@ namespace RedCabsWebAPI.Controllers
 
         [TwoFactorAuthorize]
         [HttpPost]
-        public IHttpActionResult CheckVerificationCode()
+        public IHttpActionResult VerifyOTP(string json)
         {
-            return Ok();
+            try
+            {
+                KeyValuePair model = new KeyValuePair();                
+                var userDetails = this.userService.GetById(Int32.Parse(json));
+                userDetails.ContactVerificationStatus = 2;
+                this.userService.Update(userDetails);
+                return Ok(new { Status = "Verified" });
+            }
+            catch(Exception ex)
+            {
+                loggerService.Log(new ExceptionLog()
+                {
+                    MethodName = "VerifyOTP",
+                    ClassName = this.GetType().Name,
+                    ErrorMessage = ex.Message,
+                    ExceptionType = ex.GetType().ToString(),
+                    IsServerException = true,
+                    ObjectDetails =json,
+                    StackTrace = ex.StackTrace,
+                    Tag = "OTP Verification"
+                });
+                return Ok(new { Status = "Error" });
+            }
         }       
 
         protected override void Dispose(bool disposing)
@@ -163,43 +188,34 @@ namespace RedCabsWebAPI.Controllers
             return accessToken;
         }
 
+        [Authorize]
         [HttpGet]
-        public string GetOTP(string acessToken)
+        public async Task<IHttpActionResult> GetOTP(int userId)
         {
-            string accessToken = String.Empty;
-            var request = WebRequest.Create(BaseURL + "/api/User/") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.CookieContainer = new CookieContainer();
-            var authCredentials = String.Empty;
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(authCredentials);
-            request.ContentLength = bytes.Length;
-            using (var requestStream = request.GetRequestStream())
+            var user = this.userService.GetById(userId);
+            ApplicationUser userPSK = await _repo.FindUser(user.Email, user.Password);
+
+            int otp = TimeSensitivePassCode.GetOTP(userPSK.PSK);
+
+            if (otp.ToString().Length!=6)
             {
-                requestStream.Write(bytes, 0, bytes.Length);
+                return BadRequest();
             }
-
-            using (var response = request.GetResponse() as HttpWebResponse)
-            {
-                Stream dataStream = response.GetResponseStream();
-
-                StreamReader reader = new StreamReader(dataStream);
-
-                var responseFromServer = reader.ReadToEnd();
-                accessToken = JObject.Parse(responseFromServer).SelectToken("$.access_token").ToString();
-                var authCookie = response.Cookies["access_token"];
-            }
-            return accessToken;
+            return Ok(new { OTP = otp});
         }
 
-        //[HttpGet]
-        //public UserDetails AuthenticateUser(string json)
-        //{
-        //    List<KeyValuePair> model = new List<KeyValuePair>();
-        //    model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
-        //    var result = this.userService.AuthenticateUser(model);
-        //    return result;
+        [HttpGet]
+        public RideNowModel AuthenticateUser(string json)
+        {
+            List<KeyValuePair> model = new List<KeyValuePair>();
+            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);            
+            RideNowModel result = this.userService.AuthenticateUser(model[0].Value,model[1].Value);
 
-        //}
+            result.AccessToken=  GetToken(result.userDetails.Email, result.userDetails.Password);
+
+            return result;
+
+        }
+
     }
 }

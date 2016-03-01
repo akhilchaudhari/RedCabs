@@ -20,7 +20,7 @@ namespace UnitOfWorkApplication.Services.Interfaces
 
         User AddUser(User user);
 
-        UserDetails AuthenticateUser(string username, string password);
+        RideNowModel AuthenticateUser(string username, string password);
 
         RideNowModel GetFareEstimate(RideNowModel model);
 

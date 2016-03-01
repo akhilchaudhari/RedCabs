@@ -24,8 +24,6 @@ namespace UnitOfWorkApplication.Model.Repository
 
         public DbSet<RideDetails> RideDetails { get; set; }
 
-        public DbSet<RideStatus> RideStatus { get; set; }
-
         public DbSet<User> User { get; set; }
 
         public DbSet<UserAddress> UserAddress { get; set; }

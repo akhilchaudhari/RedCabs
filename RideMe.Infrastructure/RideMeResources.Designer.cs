@@ -70,7 +70,7 @@ namespace RideMe.Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to akhil.chaudhari91@gmail.com.
+        ///   Looks up a localized string similar to support@glareindia.net.
         /// </summary>
         public static string CompanyRegistrationEmailAddress {
             get {
@@ -79,7 +79,7 @@ namespace RideMe.Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Akhil@1991.
+        ///   Looks up a localized string similar to glareIndia@2014.
         /// </summary>
         public static string CompanyRegistrationEmailPassword {
             get {
@@ -88,7 +88,7 @@ namespace RideMe.Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 587.
+        ///   Looks up a localized string similar to 25.
         /// </summary>
         public static string EmailAddressPort {
             get {
@@ -115,6 +115,26 @@ namespace RideMe.Infrastructure {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hello {0},
+        ///
+        ///Thank you for using {1} cabs. Your One Time Password for confirmation is {2}.
+        /// </summary>
+        public static string OTP_Email_Body {
+            get {
+                return ResourceManager.GetString("OTP_Email_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cabs - One Time Password.
+        /// </summary>
+        public static string OTPEmailSubject {
+            get {
+                return ResourceManager.GetString("OTPEmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 86400.
         /// </summary>
         public static string OTPExpirationDuration {
@@ -133,14 +153,13 @@ namespace RideMe.Infrastructure {
         ///For your records, you are registered with us as:
         ///
         ///Username: {4}
-        ///Password: {5}
         ///
         ///Please keep this information secure and do not share the password with anyone.
         ///
-        ///Wishing you a very happy journey with {6} cabs.
+        ///Wishing you a very happy journey with {5} cabs.
         ///
         ///Thanks and Regards,
-        ///{7} cabs.
+        ///{6} cabs.
         /// </summary>
         public static string Registration_Email_Body {
             get {
@@ -158,7 +177,7 @@ namespace RideMe.Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to smtp.gmail.com.
+        ///   Looks up a localized string similar to mail.glareindia.net.
         /// </summary>
         public static string SmtpClient {
             get {

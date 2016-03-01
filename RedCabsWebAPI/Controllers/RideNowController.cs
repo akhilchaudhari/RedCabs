@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using UnitOfWorkApplication.API;
+using UnitOfWorkApplication.Model.Entities;
 using UnitOfWorkApplication.Model.Model;
 using UnitOfWorkApplication.Services.Interfaces;
 
@@ -15,32 +16,31 @@ namespace RedCabsWebAPI.Controllers
     {
         IDriverService driverService;
         ICarTypeService carTypeService;
-        IUserService userService;        
+        IUserService userService;
+        IRideDetailsService rideDetailsService;
 
-        public RideNowController(IDriverService driverService, ICarTypeService carTypeService, IUserService userService)
+        public RideNowController(IDriverService driverService, ICarTypeService carTypeService, IUserService userService, IRideDetailsService rideDetailsService)
         {
             this.driverService = driverService;
             this.carTypeService = carTypeService;
             this.userService = userService;
-        }      
+            this.rideDetailsService = rideDetailsService;
+        }
 
-        public RideNowModel GetRideEstimates(string json)
+        [Authorize]
+        [HttpPost]
+        public RideNowModel GetRideEstimates(RideNowModel rideNowModel)
         {
-            List<KeyValuePair> model = new List<KeyValuePair>();
-            model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
-            RideNowModel rideNowModel = JsonConvert.DeserializeObject<RideNowModel>(model[0].Value);
             rideNowModel = this.userService.GetFareEstimate(rideNowModel);
             return rideNowModel;
         }
 
-        //public DriverDetails ConfirmRide(string json)
-        //{
-        //    List<KeyValuePair> model = new List<KeyValuePair>();
-        //    model = JsonConvert.DeserializeObject<List<KeyValuePair>>(json);
-        //    RideNowModel rideNowModel = JsonConvert.DeserializeObject<RideNowModel>(model[0].Value);
-        //    rideNowModel = this.userService.GetFareEstimate(rideNowModel);
-        //    return rideNowModel.DriverDetails;
-        //}
+        [HttpPost]
+        public RideNowModel ConfirmRide(RideNowModel rideNowModel)
+        {
+            rideNowModel = this.rideDetailsService.ConfirmRide(rideNowModel);
+            return rideNowModel;
+        }
 
     }
 }

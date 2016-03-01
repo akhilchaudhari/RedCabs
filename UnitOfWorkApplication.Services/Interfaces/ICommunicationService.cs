@@ -10,6 +10,8 @@ namespace UnitOfWorkApplication.Services.Interfaces
 {
     public interface ICommunicationService
     {
-        void SendMail(User user);       
+        void SendMail(User user);
+
+        void SendMail(string email, string name, string otp);
     }
 }

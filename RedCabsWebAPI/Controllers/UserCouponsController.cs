@@ -19,6 +19,8 @@ namespace RedCabsWebAPI.Controllers
         {
             this.UserCouponsService = UserCouponsService;            
         }
+
+        [Authorize]
         public List<UserCoupons> Get()
         {
             var UserCoupons = this.UserCouponsService.GetAll().ToList();
@@ -26,6 +28,7 @@ namespace RedCabsWebAPI.Controllers
             return UserCoupons;
         }
 
+        [Authorize]
         public List<UserCoupons> Get(int id)
         {
             var userCoupons = this.UserCouponsService.GetById(id);
@@ -33,6 +36,7 @@ namespace RedCabsWebAPI.Controllers
             return userCoupons;
         }
 
+        [Authorize]
         public List<Coupon> GetActiveCouponsForUser(string json)
         {
 

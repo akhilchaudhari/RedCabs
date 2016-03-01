@@ -18,6 +18,8 @@ namespace RedCabsWebAPI.Controllers
         {
             this.rateCardService = rateCardService;            
         }
+
+        [Authorize]
         public List<RateCardModel> Get()
         {
             var rateCard = this.rateCardService.GetAll().ToList();

@@ -110,31 +110,19 @@ namespace UnitOfWorkApplication.Services.Services
             return user;
         }
 
-        public UserDetails AuthenticateUser(string username, string password)
+        public RideNowModel AuthenticateUser(string username, string password)
         {
             List<KeyValuePair> result = new List<KeyValuePair>();
-            UserDetails userDetails = new UserDetails();
-            User userModel = this._UserRepository.FindBy(x => x.IsActive == true
+            RideNowModel model = new RideNowModel();
+
+            model.userDetails = this._UserRepository.FindBy(x => x.IsActive == true
                                                         && ( x.ContactNo.Equals(username)
                                                         || x.Email.Equals(username))
-                                                        && x.Password.Equals(password)).FirstOrDefault();
-
-            if(userModel!=null)
-            {
-
-                userDetails.ContactNo = userModel.ContactNo;
-                userDetails.ContactVerificationStatus = userModel.ContactVerificationStatus;
-                userDetails.Email = userModel.Email;
-                userDetails.Id = userModel.Id;
-                userDetails.IsActive = userModel.IsActive;
-                userDetails.LastLocation = userModel.LastLocation;
-                userDetails.Name = userModel.Name;
-                userDetails.Password = userModel.Password;
-
-              //  userDetails.Coupons = _userCouponRepository.GetActiveCouponsForUser(userModel.Id);
-            }                           
-            
-            return userDetails;
+                                                        && x.Password.Equals(password)
+                                                        && x.ContactVerificationStatus==2
+                                                        && x.IsActive==true).FirstOrDefault();
+            model.RideStatus = 1;
+            return model;
         }
 
         public RideNowModel GetFareEstimate(RideNowModel model)

@@ -27,6 +27,7 @@ namespace RedCabsWebAPI.Controllers
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
+       // [Authorize]
         public IEnumerable<CabDuration>  GetCabDurations(string json)
         {
             List<KeyValuePair> model = new List<KeyValuePair>();

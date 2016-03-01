@@ -19,6 +19,8 @@ namespace RedCabsWebAPI.Controllers
             this.driverService = driverService;
             this.carTypeService = carTypeService;
         }
+
+        [Authorize]
         public List<Driver> Get()
         {
             var drivers = this.driverService.GetAll().ToList();
@@ -26,6 +28,7 @@ namespace RedCabsWebAPI.Controllers
             return drivers;
         }
 
+        [Authorize]
         public Driver Get(int id)
         {
             var driver = this.driverService.GetById(id);
@@ -33,6 +36,7 @@ namespace RedCabsWebAPI.Controllers
             return driver;
         }
 
+        [Authorize]
         public List<Driver> GetDriversByCarType(string carType)
         {
             var drivers = this.driverService.GetDriversByCarType(carType);
