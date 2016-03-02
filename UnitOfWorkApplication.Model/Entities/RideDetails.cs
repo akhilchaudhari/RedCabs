@@ -28,15 +28,15 @@ namespace UnitOfWorkApplication.Model.Entities
 
         public DateTime RideDate { get; set; }
 
-        public double BaseFare { get; set; }
+        public decimal BaseFare { get; set; }
 
         public int NightHalt { get; set; }
 
         public bool isRoundTrip { get; set; }
 
-        public double TotalFare { get; set; }
+        public decimal TotalFare { get; set; }
 
-        public double RideRating { get; set; }
+        public decimal RideRating { get; set; }
 
         public string Feedback { get; set; }
 

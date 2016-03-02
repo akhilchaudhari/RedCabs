@@ -37,6 +37,8 @@ namespace UnitOfWorkApplication.Model.Model
 
         public Coupon Coupon { get; set; }
 
+        public List<Coupon> UserCoupons { get; set; }
+
         public Driver Driver;
 
         public string ETA { get; set; }

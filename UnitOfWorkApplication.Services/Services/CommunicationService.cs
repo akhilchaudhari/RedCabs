@@ -40,9 +40,17 @@ namespace UnitOfWorkApplication.Services.Services
                 mail.Subject = model.EmailSubject;
                 mail.Body = model.EmailBody;
 
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 SmtpServer.Port = Int32.Parse(RideMeResources.EmailAddressPort);
                 SmtpServer.Credentials = new System.Net.NetworkCredential(RideMeResources.CompanyRegistrationEmailAddress, RideMeResources.CompanyRegistrationEmailPassword);
-                SmtpServer.EnableSsl = true;
+
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object s,
+              System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+              System.Security.Cryptography.X509Certificates.X509Chain chain,
+              System.Net.Security.SslPolicyErrors sslPolicyErrors)
+                {
+                    return true;
+                };
 
                 SmtpServer.Send(mail);
             }
@@ -83,8 +91,7 @@ namespace UnitOfWorkApplication.Services.Services
 
                 SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 SmtpServer.Port = Int32.Parse(RideMeResources.EmailAddressPort);
-                SmtpServer.Credentials = new System.Net.NetworkCredential(RideMeResources.CompanyRegistrationEmailAddress, RideMeResources.CompanyRegistrationEmailPassword);
-            //    SmtpServer.EnableSsl = true;
+                SmtpServer.Credentials = new System.Net.NetworkCredential(RideMeResources.CompanyRegistrationEmailAddress, RideMeResources.CompanyRegistrationEmailPassword);            
 
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object s,
               System.Security.Cryptography.X509Certificates.X509Certificate certificate,

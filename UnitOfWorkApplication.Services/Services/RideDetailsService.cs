@@ -59,12 +59,14 @@ namespace UnitOfWorkApplication.Services.Services
             int driverId = cabDurations.ToList().First().DriverId;
 
             details.Driver = driverList.Where(x => x.Id == driverId).First();
+            details.Driver.IsAvailable = 2;
 
             this.rideDetailsRepository.Add(details);
             
             this.rideDetailsRepository.Save();  
 
             model.Ride_Id = details.Id;
+            model.RideStatus = details.RideStatus;
             model.ETA = cabDurations.ToList().First().DurationText;
             model.Driver = details.Driver;
 

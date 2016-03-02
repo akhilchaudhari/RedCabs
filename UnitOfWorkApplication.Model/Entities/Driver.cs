@@ -35,6 +35,10 @@ namespace UnitOfWorkApplication.Model.Entities
 
         public virtual Car Car { get; set; }
 
+        public decimal AverageUserRating { get; set; }
+
+        public int RatingCount { get; set; }
+
         public string Latitude
         {
             get

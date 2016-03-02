@@ -37,5 +37,10 @@ namespace UnitOfWorkApplication.Services.Services
         {
             return _driverRepository.FindBy(x => x.IsActive && x.IsAvailable==1);
         }
+
+        public IEnumerable<Driver> GetAllActiveDrivers()
+        {
+            return _driverRepository.FindBy(x => x.IsActive);
+        }
     }
 }

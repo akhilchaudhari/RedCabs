@@ -52,6 +52,7 @@
     <Compile Include="Interfaces\ILoggerRepository.cs" />
     <Compile Include="Interfaces\IRideNowRepository.cs" />
     <Compile Include="Interfaces\IRateCardRepository.cs" />
+    <Compile Include="Interfaces\ICouponRepository.cs" />
     <Compile Include="Interfaces\IUserCouponsRepository.cs" />
     <Compile Include="Interfaces\ICarTypeRepository.cs" />
     <Compile Include="Interfaces\IRideDetailsRepository.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\LoggerRepository.cs" />
     <Compile Include="Repository\RateCardRepository.cs" />
+    <Compile Include="Repository\CouponRepository.cs" />
     <Compile Include="Repository\UserCouponsRepository.cs" />
     <Compile Include="Repository\CarTypeRepository.cs" />
     <Compile Include="Repository\RideDetailsRepository.cs" />

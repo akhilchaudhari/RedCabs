@@ -24,8 +24,7 @@ namespace UnitOfWorkApplication.Model.Entities
 
         
         public string Password { get; set; }
-
-        public virtual List<UserCoupons> Coupons { get; set; }     
+        
     }
 }
 

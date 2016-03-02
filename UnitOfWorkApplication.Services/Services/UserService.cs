@@ -21,8 +21,9 @@ namespace UnitOfWorkApplication.Services.Services
         ILoggerService loggerService;
         DistanceMatrix distanceAPIService;
         IRateCardService rateCardService;
-
-        public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository, IRateCardRepository rateCardRepository, IUserCouponsRepository userCouponRepository, ILoggerService loggerService)
+        IRideDetailsRepository rideDetailsRepository;
+        ICouponRepository couponRepository;
+        public UserService(IUnitOfWork unitOfWork, IUserRepository UserRepository, IRateCardRepository rateCardRepository, IUserCouponsRepository userCouponRepository, ILoggerService loggerService, IRideDetailsRepository rideDetailsRepository, ICouponRepository couponRepository)
             : base(unitOfWork, UserRepository)
         {
             _unitOfWork = unitOfWork;
@@ -30,7 +31,10 @@ namespace UnitOfWorkApplication.Services.Services
             rateCardService = new RateCardService(unitOfWork, rateCardRepository, _userCouponRepository);
             this._userCouponRepository = userCouponRepository;
             this.loggerService = loggerService;
+            this.rideDetailsRepository = rideDetailsRepository;
+            this.couponRepository = couponRepository;
         }
+
         public User GetById(int Id)
         {
             return _UserRepository.GetById(Id);
@@ -103,10 +107,13 @@ namespace UnitOfWorkApplication.Services.Services
         }
 
         public User AddUser(User user)
-        {
-          //  user.Coupons = this._userCouponRepository.GetById(1);
+        {            
             this._UserRepository.Add(user);
             this._UserRepository.Save();
+
+            this._userCouponRepository.Add(new UserCoupons() {Coupon=this.couponRepository.GetDefaultCoupon(),IsActive=true,User=user });
+            this._userCouponRepository.Save();
+
             return user;
         }
 
@@ -121,7 +128,24 @@ namespace UnitOfWorkApplication.Services.Services
                                                         && x.Password.Equals(password)
                                                         && x.ContactVerificationStatus==2
                                                         && x.IsActive==true).FirstOrDefault();
-            model.RideStatus = 1;
+
+            var bookedRides = this.rideDetailsRepository.FindBy(x => x.User.Id == model.userDetails.Id && (x.RideStatus == (int)RideStatus.Booked || x.RideStatus == (int)RideStatus.Travelling)).FirstOrDefault();
+            if (bookedRides != null)
+            {
+                model.Driver = bookedRides.Driver;
+                model.RideStatus = bookedRides.RideStatus;
+                model.DestinationLocation.Address = bookedRides.DestinationAddress;
+                if (!String.IsNullOrEmpty(bookedRides.DestinationLocation) && bookedRides.DestinationLocation.Contains(','))
+                {
+                    model.DestinationLocation.Latitude = double.Parse(bookedRides.DestinationLocation.Split(',')[0]);
+                    model.DestinationLocation.Latitude = double.Parse(bookedRides.DestinationLocation.Split(',')[1]);
+                }                
+            }
+            else
+            {
+                model.UserCoupons = this._userCouponRepository.GetActiveCouponsForUser(model.userDetails.Id).Select(x => x.Coupon).ToList();
+                model.RideStatus = 1;
+            }
             return model;
         }
 
